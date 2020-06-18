@@ -1,0 +1,17 @@
+language: java
+jdk:
+- oraclejdk14
+before_cache:
+- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+cache:
+  directories:
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
+
+deploy:
+  provider: heroku
+  app:
+    master: psa-soporte
+  api_key:
+    secure: Ef4+bgVvi21yHNKsXbEhQ2j1Dsx6UTwUUrHbK9TkSbdhVicqJniNb5TvBJdPXoa1Ulyb51kImjWP0NnJ12cBswTtf/JzYcE+Pxe/syACDFwdNgef3Sw47IgWeBRWH/R6DjJqGCw7r75U6vYuD6gSEcPBySeg0wzOY9bNfBFTWAVCdkulujijMhYyY/04PW+bKPMhusUqUP2+cojg0TpxGKqopQOnyNGdCamRvodeN8wGYIDBbGdymFdj7xDszQyRjoiGRTi1hIUJxD5uBGwEJ739CR8TqpJmETxYC6C7U1FS/PFoQOuO+i8Z+h41wF6Hdbl5CNnxu8hM97Ni6M5A9kt4I5vioLI328r486Mf8U4fMR6XeMrbuFhdcKa8MZiUvw7q+g2pbbaG6bwSPy/rCAw+2+/RAEHvxeCy65t8KruoIFlVR9en5FWITfDbH+9Appsw2O7lajPpDgyMle451OPv7hv1jZznAEeeF4zJn4+FWR3qapMWG/UgJIGCbbUGmx5TDyyYBGV07ydQGjo4FyJQoJCbfl5z8CPJz1jKJ0b/K0/iTHRweo+WC2jrkbZQSUIQD3zNsxE3ik+fvccYzbwSAh8AokR07A5vNU+hH3d+VVlmfAaKGRFizC2YE2DNWDNINBx0vHQc67kpiofDZCVMwCECCpEXHT6JfWQsdjA=
