@@ -19,7 +19,7 @@ spring.datasource.password=<DB_PASSWORD>
 
 ### OpenApi
 
-Automáticamente se generan endpoints con la especificación de la api en [localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html) y [localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs).
+Automáticamente se generan endpoints con la especificación de la api en [localhost:8080/swagger-ui/index.html?url=/v3/api-docs](http://localhost:8080/swagger-ui/index.html?url=/v3/api-docs) y [localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs).
 
 ### Comandos disponibles
 
@@ -34,4 +34,3 @@ Automáticamente se generan endpoints con la especificación de la api en [local
 #### Ejecutar los tests de aceptación
         
     $ ./gradlew cucumber
-        
