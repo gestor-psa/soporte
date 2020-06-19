@@ -1,17 +1,11 @@
 package psa.soporte.controller;
 
-import java.util.List;
-
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import psa.soporte.exception.EmployeeNotFoundException;
 import psa.soporte.model.Employee;
 import psa.soporte.repository.EmployeeRepository;
+
+import java.util.List;
 
 @RestController
 public
@@ -24,7 +18,6 @@ class EmployeeController {
     }
 
     // Aggregate root
-
     @GetMapping("/employees")
     List<Employee> all() {
         return repository.findAll();
@@ -36,7 +29,6 @@ class EmployeeController {
     }
 
     // Single item
-
     @GetMapping("/employees/{id}")
     Employee one(@PathVariable Long id) {
 

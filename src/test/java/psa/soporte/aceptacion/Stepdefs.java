@@ -1,4 +1,4 @@
-package hellocucumber;
+package psa.soporte.aceptacion;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
