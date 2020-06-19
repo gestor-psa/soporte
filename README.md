@@ -17,17 +17,21 @@ spring.datasource.username=<DB_USERNAME>
 spring.datasource.password=<DB_PASSWORD>
 ```
 
+### OpenApi
+
+Automáticamente se generan endpoints con la especificación de la api en [localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html) y [localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs).
+
 ### Comandos disponibles
 
 #### Iniciar el servicio
 
     $ ./gradlew bootRun
     
-#### Ejecutar los tests con modificaciones
+#### Ejecutar los tests
     
     $ ./gradlew test
     
-#### Ejecutar todos los tests
+#### Ejecutar los tests de aceptación
         
-    $ ./gradlew cleanTest test
+    $ ./gradlew cucumber
         
