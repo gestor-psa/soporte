@@ -27,10 +27,11 @@ Automáticamente se generan endpoints con la especificación de la api en [local
 
     $ ./gradlew bootRun
     
-#### Ejecutar los tests
-    
-    $ ./gradlew test
-    
 #### Ejecutar los tests de aceptación
         
     $ ./gradlew cucumber
+
+#### Ejecutar los tests (todos)
+    
+    $ ./gradlew test
+    
