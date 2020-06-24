@@ -11,43 +11,55 @@ public class TicketPasos {
     public void queSoyIngenieroDeSoporte() {
     }
 
-    @Y("seleccioné la versión {int} del producto {string}")
-    public void seleccionéUnaVersiónDelProducto(int version, String producto) {
+    @Dado("que existe un producto con nombre {string} y versión {int}")
+    public void queExisteUnProductoConNombreYVersión(String arg0, int arg1) {
+    }
+
+    @Y("selecciono la versión {int} del producto {string}")
+    public void seleccionoLaVersiónDelProducto(int arg0, String arg1) {
+    }
+
+    @Cuando("creo un ticket {string} ingresando:")
+    public void creoUnTicketIngresando(String arg0, DataTable dt) {
+    }
+
+    @Entonces("veo que la creación fue {string}")
+    public void veoQueLaCreaciónFue(String arg0) {
     }
 
     @Cuando("creo un ticket ingresando:")
-    public void creoUnTicketIngresando(DataTable dtTicket) {
+    public void creoUnTicketIngresando(DataTable dt) {
     }
 
-    @Entonces("el sistema me informa que la creación del ticket fue {string}")
-    public void elSistemaMeInformaQueLaCreaciónDelTicketFue(String arg0) {
+    @Entonces("veo que la operación fue {string}")
+    public void veoQueLaOperaciónFue(String arg0) {
     }
 
-    @Y("que se creó con los siguientes atributos:")
-    public void queSeCreóConLosSiguientesAtributos() {
+    @Y("veo que posee los siguientes atributos:")
+    public void veoQuePoseeLosSiguientesAtributos(DataTable dt) {
     }
 
-    @Y("sin comentarios")
-    public void sinComentarios() {
+    @Y("veo que no posee comentarios")
+    public void veoQueNoPoseeComentarios() {
     }
 
     @Dado("que existe un ticket con los siguientes atributos:")
-    public void queExisteUnTicketConLosSiguientesAtributos(DataTable dtTicket) {
+    public void queExisteUnTicketConLosSiguientesAtributos(DataTable dt) {
     }
 
     @Y("con los siguientes comentarios:")
-    public void conLosSiguientesComentarios(DataTable dtComentarios) {
+    public void conLosSiguientesComentarios(DataTable dt) {
     }
 
     @Cuando("selecciono un ticket con nombre {string}")
     public void seleccionoUnTicketConNombre(String arg0) {
     }
 
-    @Entonces("el sistema me informa que dicho ticket posee los siguientes atributos:")
-    public void elSistemaMeInformaQueDichoTicketTiene(DataTable dtTicket) {
+    @Y("veo que posee los siguientes comentarios:")
+    public void veoQuePoseeLosSiguientesComentarios(DataTable dt) {
     }
 
-    @Y("los siguientes comentarios:")
-    public void losSiguientesComentarios(DataTable dtComentarios) {
+    @Cuando("modifico el ticket {string}:")
+    public void modificoElTicket(String arg0, DataTable dt) {
     }
 }
