@@ -1,8 +1,8 @@
 # Gestor-PSA
 
-[![Build Status](https://travis-ci.com/seblaz/Gestor-PSA.svg?token=ztzmYxxiK9M4zZcGZZzZ&branch=master)](https://travis-ci.com/seblaz/Gestor-PSA)
+[![Build Status](https://travis-ci.com/gestor-psa/soporte.svg?token=ztzmYxxiK9M4zZcGZZzZ&branch=master)](https://travis-ci.com/gestor-psa/soporte)
 
-Software desarrollado por la empresa PSA para gestionar proyectos, incidencias, imputación de horas y facturación.
+Módulo de gestión de soporte del gestor PSA. Este permite la creación y administración de tickets sobre distintos proyectos.
 
 ### Prerequisitos
 - [Java 14](https://www.oracle.com/java/technologies/javase-jdk14-downloads.html)
@@ -19,19 +19,18 @@ spring.datasource.password=<DB_PASSWORD>
 
 ### OpenApi
 
-Automáticamente se generan endpoints con la especificación de la api en [localhost:8080/swagger-ui/index.html?url=/v3/api-docs](http://localhost:8080/swagger-ui/index.html?url=/v3/api-docs) y [localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs).
+Automáticamente se generan endpoints con la especificación de la api en [localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs) y se puede visualizar con Swagger en [localhost:8080/swagger-ui/index.html?url=/v3/api-docs](http://localhost:8080/swagger-ui/index.html?url=/v3/api-docs).
 
 ### Comandos disponibles
 
 #### Iniciar el servicio
 
     $ ./gradlew bootRun
-    
-#### Ejecutar los tests de aceptación
-        
-    $ ./gradlew cucumber
 
-#### Ejecutar los tests (todos)
+#### Ejecutar los tests
     
     $ ./gradlew test
-    
+        
+#### Ejecutar solo los tests de aceptación
+        
+    $ ./gradlew cucumber
