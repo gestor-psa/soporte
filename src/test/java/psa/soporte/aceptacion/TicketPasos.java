@@ -5,8 +5,16 @@ import io.cucumber.java.es.Cuando;
 import io.cucumber.java.es.Dado;
 import io.cucumber.java.es.Entonces;
 import io.cucumber.java.es.Y;
+import psa.soporte.controller.TicketController;
+
+
+import java.util.List;
 
 public class TicketPasos {
+
+    @Autowired
+    public TicketController ticketController;
+
     @Dado("que soy ingeniero de soporte")
     public void queSoyIngenieroDeSoporte() {
     }
@@ -29,6 +37,8 @@ public class TicketPasos {
 
     @Cuando("creo un ticket ingresando:")
     public void creoUnTicketIngresando(DataTable dt) {
+        List<String> ticketData = dt.asList();
+        //ticketService.crearTicket(ticketData.get(0),);
     }
 
     @Entonces("veo que la operación fue {string}")

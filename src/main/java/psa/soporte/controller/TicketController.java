@@ -3,7 +3,7 @@ package psa.soporte.controller;
 import org.springframework.web.bind.annotation.*;
 import psa.soporte.exception.TicketNotFoundException;
 import psa.soporte.model.Ticket;
-import psa.soporte.repository.TicketRepository;
+import psa.soporte.service.TicketService;
 
 import java.util.List;
 
@@ -12,50 +12,38 @@ import java.util.List;
 public
 class TicketController {
 
-    private final TicketRepository repository;
+    private TicketService ticketService;
 
-    TicketController(TicketRepository repository) {
-        this.repository = repository;
+    TicketController(TicketService ticketService) {
+        this.ticketService = ticketService;
     }
 
     // Aggregate root
 
     @GetMapping("/tickets")
     List<Ticket> all() {
-        return repository.findAll();
+        return ticketService.listarTickets();
     }
 
     @PostMapping("/tickets")
     Ticket newTicket(@RequestBody Ticket newTicket) {
-        return repository.save(newTicket);
+        return ticketService.crearTicket(newTicket);
     }
 
     // Single item
 
     @GetMapping("/tickets/{id}")
     Ticket one(@PathVariable Long id) {
-
-        return repository.findById(id)
-                .orElseThrow(() -> new TicketNotFoundException(id));
+        return ticketService.obtenerTicket(id);
     }
 
     @PutMapping("/tickets/{id}")
     Ticket replaceTicket(@RequestBody Ticket newTicket, @PathVariable Long id) {
-
-        return repository.findById(id)
-                .map(ticket -> {
-                    ticket.setName(newTicket.getName());
-                    //ticket.setRole(newTicket.getRole());
-                    return repository.save(ticket);
-                })
-                .orElseGet(() -> {
-                    newTicket.setId(id);
-                    return repository.save(newTicket);
-                });
+        return ticketService.actualizarTicket(newTicket,id);
     }
 
     @DeleteMapping("/tickets/{id}")
     void deleteTicket(@PathVariable Long id) {
-        repository.deleteById(id);
+        ticketService.eliminarTicket(id);
     }
 }
