@@ -22,6 +22,9 @@ public class TicketService {
     }
 
     public Ticket crearTicket(Ticket nuevoTicket) {
+        if(!tieneCamposRequeridos(nuevoTicket)){
+            return null;
+        }
         return repository.save(nuevoTicket);
     }
 
@@ -30,6 +33,9 @@ public class TicketService {
     }
 
     public Ticket actualizarTicket(Ticket nuevoTicket, Long id) {
+        if(!tieneCamposRequeridos(nuevoTicket)){
+            return null;
+        }
         return repository.findById(id)
                 .map(ticket -> {
                     ticket.setNombre(nuevoTicket.getNombre());
@@ -38,7 +44,7 @@ public class TicketService {
                     ticket.setDescripcion(nuevoTicket.getDescripcion());
                     ticket.setSeveridad(nuevoTicket.getSeveridad());
                     ticket.setResponsable(nuevoTicket.getResponsable());
-                    ticket.setComentario(nuevoTicket.getComentario());
+                    ticket.setComentarios(nuevoTicket.getComentarios());
                     ticket.setCliente(nuevoTicket.getCliente());
                     return repository.save(ticket);
                 })
@@ -51,4 +57,12 @@ public class TicketService {
     public void eliminarTicket(Long id) {
         repository.deleteById(id);
     }
+
+    private boolean tieneCamposRequeridos(Ticket newTicket) {
+        if(newTicket.getNombre() == null || newTicket.getDescripcion() == null || newTicket.getTipo() == null || newTicket.getSeveridad() == null) {
+            return false;
+        }
+        return true;
+    }
+
 }

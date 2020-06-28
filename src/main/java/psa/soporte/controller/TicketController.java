@@ -25,24 +25,24 @@ class TicketController {
     }
 
     @PostMapping("/tickets")
-    Ticket newTicket(@RequestBody Ticket newTicket) {
+    public Ticket newTicket(@RequestBody Ticket newTicket) {
         return ticketService.crearTicket(newTicket);
     }
 
     // Single item
 
     @GetMapping("/tickets/{id}")
-    Ticket one(@PathVariable Long id) {
+    public Ticket one(@PathVariable Long id) {
         return ticketService.obtenerTicket(id);
     }
 
     @PutMapping("/tickets/{id}")
-    Ticket replaceTicket(@RequestBody Ticket newTicket, @PathVariable Long id) {
+    public Ticket replaceTicket(@RequestBody Ticket newTicket, @PathVariable Long id) {
         return ticketService.actualizarTicket(newTicket,id);
     }
 
     @DeleteMapping("/tickets/{id}")
-    void deleteTicket(@PathVariable Long id) {
+    public void deleteTicket(@PathVariable Long id) {
         ticketService.eliminarTicket(id);
     }
 }

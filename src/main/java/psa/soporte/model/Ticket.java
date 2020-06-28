@@ -2,9 +2,9 @@ package psa.soporte.model;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -18,21 +18,18 @@ class Ticket {
     private String descripcion;
     private String severidad;
     private String responsable;
-    private String comentario;
-    private String cliente;
+    @OneToMany
+    private List<Comentario> comentarios;
+    @OneToOne
+    private Cliente cliente;
+    private Date fechaCreacion;
+    private Date fechaActualizacion;
 
-    public Ticket() {}
 
-    Ticket(String nombre, String tipo, String estado,String descripcion,String severidad,String responsable,String comentario, String cliente) {
-        this.nombre = nombre;
-        this.tipo = tipo;
-        this.estado = estado;
-        this.descripcion = descripcion;
-        this.severidad = severidad;
-        this.responsable = responsable;
-        this.comentario = comentario;
-        this.cliente= cliente;
+    public Ticket() {
+        this.estado = "pendiente";
     }
+
 
     public Long getId() {
         return id;
@@ -90,20 +87,39 @@ class Ticket {
         this.responsable = responsable;
     }
 
-    public String getComentario() {
-        return comentario;
+    public List<Comentario> getComentarios() {
+        return comentarios;
     }
 
-    public void setComentario(String comentario) {
-        this.comentario = comentario;
+    public void setComentarios(List<Comentario> comentarios) {
+        this.comentarios=comentarios;
     }
 
-    public String getCliente() {
+    public void agregarComentario(Comentario comentario) {
+        comentarios.add(comentario);
+    }
+
+    public Cliente getCliente() {
         return cliente;
     }
 
-    public void setCliente(String cliente) {
+    public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
 
+    public Date getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(Date fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+
+    public Date getFechaActualizacion() {
+        return fechaActualizacion;
+    }
+
+    public void setFechaActualizacion(Date fechaActualizacion) {
+        this.fechaActualizacion = fechaActualizacion;
+    }
 }
