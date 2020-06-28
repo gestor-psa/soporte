@@ -1,7 +1,6 @@
 package psa.soporte.controller;
 
 import org.springframework.web.bind.annotation.*;
-import psa.soporte.exception.TicketNotFoundException;
 import psa.soporte.model.Ticket;
 import psa.soporte.service.TicketService;
 
@@ -21,7 +20,7 @@ class TicketController {
     // Aggregate root
 
     @GetMapping("/tickets")
-    List<Ticket> all() {
+    public List<Ticket> all() {
         return ticketService.listarTickets();
     }
 

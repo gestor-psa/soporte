@@ -5,11 +5,16 @@ import io.cucumber.java.es.Cuando;
 import io.cucumber.java.es.Dado;
 import io.cucumber.java.es.Entonces;
 import io.cucumber.java.es.Y;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import psa.soporte.PsaApplication;
 import psa.soporte.controller.TicketController;
-
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+@ContextConfiguration(classes = PsaApplication.class)
 public class TicketPasos {
 
     @Autowired
@@ -17,6 +22,8 @@ public class TicketPasos {
 
     @Dado("que soy ingeniero de soporte")
     public void queSoyIngenieroDeSoporte() {
+        assertNotNull(ticketController);
+        ticketController.all();
     }
 
     @Dado("que existe un producto con nombre {string} y versión {int}")
