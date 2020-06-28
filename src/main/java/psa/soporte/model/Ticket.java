@@ -3,6 +3,7 @@ package psa.soporte.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -28,6 +29,7 @@ class Ticket {
 
     public Ticket() {
         this.estado = "pendiente";
+        this.comentarios = new ArrayList<>();
     }
 
 

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import psa.soporte.PsaApplication;
 import psa.soporte.controller.TicketController;
+import psa.soporte.model.Comentario;
 import psa.soporte.model.Ticket;
 
 import javax.transaction.Transactional;
@@ -27,8 +28,6 @@ public class TicketPasos {
 
     @Dado("que soy ingeniero de soporte")
     public void queSoyIngenieroDeSoporte() {
-        assertNotNull(ticketController);
-        ticketController.all();
     }
 
     @Dado("que existe un producto con nombre {string} y versión {int}")
@@ -96,7 +95,6 @@ public class TicketPasos {
         assertEquals(ticketData.get(1).get(2),newTicket.getResponsable());
         assertEquals(ticketData.get(1).get(3),newTicket.getTipo());
         assertEquals(ticketData.get(1).get(4),newTicket.getSeveridad());
-
     }
 
     @Transactional
@@ -125,6 +123,14 @@ public class TicketPasos {
 
     @Y("con los siguientes comentarios:")
     public void conLosSiguientesComentarios(DataTable dt) {
+        List<List<String>> ticketData = dt.asLists();
+        for (int i = 0; i < ticketData.size() - 1; i++) {
+            Comentario nuevoComentario = new Comentario();
+            nuevoComentario.setComentario(ticketData.get(i+1).get(0));
+            nuevoComentario.setUsuario(ticketData.get(i+1).get(1));
+            //nuevoComentario.setFechaComentario(ticketData.get(i+1).get(2));
+            createdTicket.agregarComentario(nuevoComentario);
+        }
     }
 
     @Cuando("selecciono un ticket con nombre {string}")
@@ -133,6 +139,13 @@ public class TicketPasos {
 
     @Y("veo que posee los siguientes comentarios:")
     public void veoQuePoseeLosSiguientesComentarios(DataTable dt) {
+        List<List<String>> ticketData = dt.asLists();
+        List<Comentario> comentarios = createdTicket.getComentarios();
+        for (int i = 0; i < comentarios.size(); i++) {
+            assertEquals(comentarios.get(i).getComentario(),ticketData.get(i+1).get(0));
+            assertEquals(comentarios.get(i).getUsuario(),ticketData.get(i+1).get(1));
+            //assertEquals(comentarios.get(i).getFechaComentario(),ticketData.get(i+1).get(2));
+        }
     }
 
     @Cuando("modifico el ticket {string}:")
