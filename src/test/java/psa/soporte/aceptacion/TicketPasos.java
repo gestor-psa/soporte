@@ -6,6 +6,7 @@ import io.cucumber.java.es.Dado;
 import io.cucumber.java.es.Entonces;
 import io.cucumber.java.es.Y;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import psa.soporte.PsaApplication;
 import psa.soporte.controller.TicketController;
@@ -17,6 +18,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@DirtiesContext
 @ContextConfiguration(classes = PsaApplication.class)
 public class TicketPasos {
 
@@ -24,6 +26,7 @@ public class TicketPasos {
     public TicketController ticketController;
     public Ticket createdTicket;
     public Ticket modifiedTicket;
+    public Ticket selectedTicket;
     public Long ticketId;
 
     @Dado("que soy ingeniero de soporte")
@@ -135,6 +138,13 @@ public class TicketPasos {
 
     @Cuando("selecciono un ticket con nombre {string}")
     public void seleccionoUnTicketConNombre(String arg0) {
+        List<Ticket> tickets = ticketController.all();
+        for (int i = 0; i < tickets.size(); i++){
+            if(tickets.get(i).getNombre().equals(arg0)){
+                selectedTicket = tickets.get(i);
+                System.out.println("se guarda el ticket seleccionado");
+            }
+        }
     }
 
     @Y("veo que posee los siguientes comentarios:")
@@ -159,5 +169,28 @@ public class TicketPasos {
         newTicket.setSeveridad(ticketData.get(1).get(4));
         newTicket.setEstado(ticketData.get(1).get(5));
         modifiedTicket = ticketController.replaceTicket(newTicket,ticketId);
+    }
+
+    @Entonces("veo que el ticket seleccionado posee los siguientes atributos:")
+    public void veoQueElTicketSeleccionadoPoseeLosSiguientesAtributos(DataTable dt) {
+        List<List<String>> ticketData = dt.asLists();
+        Ticket newTicket = selectedTicket;
+        assertEquals(ticketData.get(1).get(0),newTicket.getNombre());
+        assertEquals(ticketData.get(1).get(1),newTicket.getDescripcion());
+        assertEquals(ticketData.get(1).get(2),newTicket.getResponsable());
+        assertEquals(ticketData.get(1).get(3),newTicket.getTipo());
+        assertEquals(ticketData.get(1).get(4),newTicket.getSeveridad());
+    }
+
+    @Transactional
+    @Y("veo que el ticket seleccionado posee los siguientes comentarios:")
+    public void veoQueElTicketSeleccionadoPoseeLosSiguientesComentarios(DataTable dt) {
+        List<List<String>> ticketData = dt.asLists();
+        List<Comentario> comentarios = selectedTicket.getComentarios();
+        for (int i = 0; i < comentarios.size(); i++) {
+            assertEquals(comentarios.get(i).getComentario(), ticketData.get(i + 1).get(0));
+            assertEquals(comentarios.get(i).getUsuario(), ticketData.get(i + 1).get(1));
+            //assertEquals(comentarios.get(i).getFechaComentario(),ticketData.get(i+1).get(2));
+        }
     }
 }

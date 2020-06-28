@@ -19,7 +19,7 @@ class Ticket {
     private String descripcion;
     private String severidad;
     private String responsable;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Comentario> comentarios;
     @OneToOne
     private Cliente cliente;
