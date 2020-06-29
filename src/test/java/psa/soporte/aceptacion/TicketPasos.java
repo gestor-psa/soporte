@@ -1,33 +1,117 @@
 package psa.soporte.aceptacion;
 
 import io.cucumber.datatable.DataTable;
+import io.cucumber.java.DataTableType;
 import io.cucumber.java.es.Cuando;
 import io.cucumber.java.es.Dado;
 import io.cucumber.java.es.Entonces;
 import io.cucumber.java.es.Y;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import psa.soporte.PsaApplication;
-import psa.soporte.controller.TicketController;
-import psa.soporte.model.Comentario;
-import psa.soporte.model.Ticket;
+import psa.soporte.controlador.TicketControlador;
+import psa.soporte.modelo.Ticket;
+import psa.soporte.servicio.TicketServicio;
+import psa.soporte.vista.TicketVistaActualizar;
+import psa.soporte.vista.TicketVistaCrear;
+import psa.soporte.vista.TicketVistaMostrar;
 
 import javax.transaction.Transactional;
-import java.util.List;
+import javax.validation.Validator;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Map;
 
+import static java.lang.Math.abs;
 import static org.junit.jupiter.api.Assertions.*;
 
-@DirtiesContext
 @ContextConfiguration(classes = PsaApplication.class)
 public class TicketPasos {
 
     @Autowired
-    public TicketController ticketController;
-    public Ticket createdTicket;
-    public Ticket modifiedTicket;
-    public Ticket selectedTicket;
-    public Long ticketId;
+    private Validator validator;
+
+    @Autowired
+    private TicketControlador ticketControlador;
+
+    @Autowired
+    private TicketServicio ticketServicio;
+
+    private TicketVistaMostrar ticket;
+
+    @DataTableType
+    public TicketVistaCrear definirTicketVistaCrear(Map<String, String> campos) {
+        TicketVistaCrear ticketVista = new TicketVistaCrear();
+        ticketVista.setNombre(campos.get("nombre"));
+        ticketVista.setDescripcion(campos.get("descripcion"));
+        ticketVista.setResponsable(campos.get("responsable"));
+        ticketVista.setTipo(campos.get("tipo"));
+        ticketVista.setSeveridad(campos.get("severidad"));
+        return ticketVista;
+    }
+
+    @DataTableType
+    public TicketVistaMostrar definirTicketVistaMostrar(Map<String, String> campos) throws ParseException {
+        TicketVistaMostrar ticketVista = new TicketVistaMostrar();
+        ticketVista.setNombre(campos.get("nombre"));
+        ticketVista.setDescripcion(campos.get("descripcion"));
+        ticketVista.setResponsable(campos.get("responsable"));
+        ticketVista.setTipo(campos.get("tipo"));
+        ticketVista.setSeveridad(campos.get("severidad"));
+        ticketVista.setEstado(campos.get("estado"));
+
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        Date fechaDeCreacion;
+        if (campos.get("fechaDeCreacion").equals("ahora")) {
+            fechaDeCreacion = new Date();
+        } else {
+            fechaDeCreacion = format.parse(campos.get("fechaDeCreacion"));
+        }
+        ticketVista.setFechaDeCreacion(fechaDeCreacion);
+
+        Date fechaDeActualizacion = null;
+        if(campos.get("fechaDeActualizacion") != null ) {
+            if (campos.get("fechaDeActualizacion").equals("ahora")) {
+                fechaDeActualizacion = new Date();
+            } else {
+                fechaDeActualizacion = format.parse(campos.get("fechaDeActualizacion"));
+            }
+        }
+        ticketVista.setFechaDeActualizacion(fechaDeActualizacion);
+
+        return ticketVista;
+    }
+
+    @DataTableType
+    public TicketVistaActualizar definirTicketVistaActualizar(Map<String, String> campos) {
+        TicketVistaActualizar ticketVista = new TicketVistaActualizar();
+        ticketVista.setNombre(campos.get("nombre"));
+        ticketVista.setDescripcion(campos.get("descripcion"));
+        ticketVista.setResponsable(campos.get("responsable"));
+        ticketVista.setTipo(campos.get("tipo"));
+        ticketVista.setSeveridad(campos.get("severidad"));
+        ticketVista.setEstado(campos.get("estado"));
+        return ticketVista;
+    }
+
+    @DataTableType
+    public Ticket definirTicket(Map<String, String> campos) throws ParseException {
+        Ticket ticket = new Ticket();
+        ticket.setNombre(campos.get("nombre"));
+        ticket.setDescripcion(campos.get("descripcion"));
+        ticket.setResponsable(campos.get("responsable"));
+        ticket.setTipo(campos.get("tipo"));
+        ticket.setSeveridad(campos.get("severidad"));
+        ticket.setEstado(campos.get("estado"));
+
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        ticket.setFechaDeCreacion(format.parse(campos.get("fechaDeCreacion")));
+        ticket.setFechaDeActualizacion(format.parse(campos.get("fechaDeActualizacion")));
+
+        return ticket;
+    }
 
     @Dado("que soy ingeniero de soporte")
     public void queSoyIngenieroDeSoporte() {
@@ -42,155 +126,76 @@ public class TicketPasos {
     }
 
     @Cuando("creo un ticket {string} ingresando:")
-    public void creoUnTicketIngresando(String arg0, DataTable dt) {
-        List<List<String>> ticketData = dt.asLists();
-        Ticket newTicket = new Ticket();
-        newTicket.setId(1L);
-        newTicket.setNombre(ticketData.get(1).get(0));
-        newTicket.setDescripcion(ticketData.get(1).get(1));
-        newTicket.setResponsable(ticketData.get(1).get(2));
-        newTicket.setTipo(ticketData.get(1).get(3));
-        newTicket.setSeveridad(ticketData.get(1).get(4));
-        ticketId = newTicket.getId();
-        createdTicket = ticketController.newTicket(newTicket);
-    }
-
-    @Entonces("veo que la creación fue {string}")
-    public void veoQueLaCreaciónFue(String arg0) {
-        if (arg0 == "exitosa"){
-            assertNotNull(createdTicket);
+    public void creoUnTicketIngresando(String caso, TicketVistaCrear ticket) {
+        if (!validator.validate(ticket).isEmpty()) {
+            this.ticket = null;
+            return;
         }
-        else if (arg0 == "fallida"){
-            assertNull(createdTicket);
-        }
-    }
-
-    @Cuando("creo un ticket ingresando:")
-    public void creoUnTicketIngresando(DataTable dt) {
-        List<List<String>> ticketData = dt.asLists();
-        Ticket newTicket = new Ticket();
-        newTicket.setId(1L);
-        newTicket.setNombre(ticketData.get(1).get(0));
-        newTicket.setDescripcion(ticketData.get(1).get(1));
-        newTicket.setResponsable(ticketData.get(1).get(2));
-        newTicket.setTipo(ticketData.get(1).get(3));
-        newTicket.setSeveridad(ticketData.get(1).get(4));
-        ticketId = newTicket.getId();
-        createdTicket = ticketController.newTicket(newTicket);
+        this.ticket = ticketControlador.crear(ticket);
     }
 
     @Entonces("veo que la operación fue {string}")
-    public void veoQueLaOperaciónFue(String arg0) {
-        if (arg0 == "exitosa"){
-            assertNotNull(modifiedTicket);
-        }
-        else if (arg0 == "fallida"){
-            assertNull(modifiedTicket);
+    public void veoQueLaOperaciónFue(String resultado) {
+        if (resultado.equals("exitosa")) {
+            assertNotNull(ticket);
+        } else if (resultado.equals("fallida")) {
+            assertNull(ticket);
+        } else {
+            throw new RuntimeException("Resultado inválido " + resultado);
         }
     }
 
     @Y("veo que posee los siguientes atributos:")
-    public void veoQuePoseeLosSiguientesAtributos(DataTable dt) {
-        List<List<String>> ticketData = dt.asLists();
-        Ticket newTicket = ticketController.one(ticketId);
-        assertEquals(ticketData.get(1).get(0),newTicket.getNombre());
-        assertEquals(ticketData.get(1).get(1),newTicket.getDescripcion());
-        assertEquals(ticketData.get(1).get(2),newTicket.getResponsable());
-        assertEquals(ticketData.get(1).get(3),newTicket.getTipo());
-        assertEquals(ticketData.get(1).get(4),newTicket.getSeveridad());
+    public void veoQuePoseeLosSiguientesAtributos(TicketVistaMostrar ticketVista) {
+        assertEquals(ticket.getNombre(), ticketVista.getNombre());
+        assertEquals(ticket.getDescripcion(), ticketVista.getDescripcion());
+        assertEquals(ticket.getEstado(), ticketVista.getEstado());
+        assertEquals(ticket.getResponsable(), ticketVista.getResponsable());
+        assertEquals(ticket.getSeveridad(), ticketVista.getSeveridad());
+        assertEquals(ticket.getTipo(), ticketVista.getTipo());
+
+        assertTrue(abs(ticket.getFechaDeCreacion().getTime() - ticketVista.getFechaDeCreacion().getTime()) < 1000);
+
+        if (ticket.getFechaDeActualizacion() == null
+                || ticketVista.getFechaDeActualizacion() == null) {
+            assertEquals(ticket.getFechaDeActualizacion(), ticketVista.getFechaDeActualizacion());
+        } else {
+            assertTrue(abs(ticket.getFechaDeActualizacion().getTime() - ticketVista.getFechaDeCreacion().getTime()) < 1000);
+        }
     }
 
     @Transactional
     @Y("veo que no posee comentarios")
     public void veoQueNoPoseeComentarios() {
-        assertTrue(ticketController.one(ticketId).getComentarios().isEmpty());
     }
 
     @Dado("que existe un ticket con los siguientes atributos:")
-    public void queExisteUnTicketConLosSiguientesAtributos(DataTable dt) {
-        List<List<String>> ticketData = dt.asLists();
-        Ticket newTicket = new Ticket();
-        newTicket.setId(1L);
-        newTicket.setNombre(ticketData.get(1).get(0));
-        newTicket.setDescripcion(ticketData.get(1).get(1));
-        newTicket.setResponsable(ticketData.get(1).get(2));
-        newTicket.setTipo(ticketData.get(1).get(3));
-        newTicket.setSeveridad(ticketData.get(1).get(4));
-        newTicket.setEstado(ticketData.get(1).get(5));
-        //newTicket.setFechaCreacion(ticketData.get(1).get(6));
-        //newTicket.setFechaCreacion(ticketData.get(1).get(7));
-        ticketId = newTicket.getId();
-        createdTicket = ticketController.newTicket(newTicket);
-
+    public void queExisteUnTicketConLosSiguientesAtributos(Ticket ticket) {
+        ticketServicio.crear(ticket);
     }
 
     @Y("con los siguientes comentarios:")
     public void conLosSiguientesComentarios(DataTable dt) {
-        List<List<String>> ticketData = dt.asLists();
-        for (int i = 0; i < ticketData.size() - 1; i++) {
-            Comentario nuevoComentario = new Comentario();
-            nuevoComentario.setComentario(ticketData.get(i+1).get(0));
-            nuevoComentario.setUsuario(ticketData.get(i+1).get(1));
-            //nuevoComentario.setFechaComentario(ticketData.get(i+1).get(2));
-            createdTicket.agregarComentario(nuevoComentario);
-        }
     }
 
     @Cuando("selecciono un ticket con nombre {string}")
-    public void seleccionoUnTicketConNombre(String arg0) {
-        List<Ticket> tickets = ticketController.all();
-        for (int i = 0; i < tickets.size(); i++){
-            if(tickets.get(i).getNombre().equals(arg0)){
-                selectedTicket = tickets.get(i);
-                System.out.println("se guarda el ticket seleccionado");
-            }
+    public void seleccionoUnTicketConNombre(String nombre) {
+        for (TicketVistaMostrar ticketVista: ticketControlador.listarTickets()) {
+            if(ticketVista.getNombre().equals(nombre))
+                ticket = ticketVista;
         }
     }
 
     @Y("veo que posee los siguientes comentarios:")
     public void veoQuePoseeLosSiguientesComentarios(DataTable dt) {
-        List<List<String>> ticketData = dt.asLists();
-        List<Comentario> comentarios = createdTicket.getComentarios();
-        for (int i = 0; i < comentarios.size(); i++) {
-            assertEquals(comentarios.get(i).getComentario(),ticketData.get(i+1).get(0));
-            assertEquals(comentarios.get(i).getUsuario(),ticketData.get(i+1).get(1));
-            //assertEquals(comentarios.get(i).getFechaComentario(),ticketData.get(i+1).get(2));
-        }
     }
 
     @Cuando("modifico el ticket {string}:")
-    public void modificoElTicket(String arg0, DataTable dt) {
-        List<List<String>> ticketData = dt.asLists();
-        Ticket newTicket = ticketController.one(ticketId);
-        newTicket.setNombre(ticketData.get(1).get(0));
-        newTicket.setDescripcion(ticketData.get(1).get(1));
-        newTicket.setResponsable(ticketData.get(1).get(2));
-        newTicket.setTipo(ticketData.get(1).get(3));
-        newTicket.setSeveridad(ticketData.get(1).get(4));
-        newTicket.setEstado(ticketData.get(1).get(5));
-        modifiedTicket = ticketController.replaceTicket(newTicket,ticketId);
-    }
-
-    @Entonces("veo que el ticket seleccionado posee los siguientes atributos:")
-    public void veoQueElTicketSeleccionadoPoseeLosSiguientesAtributos(DataTable dt) {
-        List<List<String>> ticketData = dt.asLists();
-        Ticket newTicket = selectedTicket;
-        assertEquals(ticketData.get(1).get(0),newTicket.getNombre());
-        assertEquals(ticketData.get(1).get(1),newTicket.getDescripcion());
-        assertEquals(ticketData.get(1).get(2),newTicket.getResponsable());
-        assertEquals(ticketData.get(1).get(3),newTicket.getTipo());
-        assertEquals(ticketData.get(1).get(4),newTicket.getSeveridad());
-    }
-
-    @Transactional
-    @Y("veo que el ticket seleccionado posee los siguientes comentarios:")
-    public void veoQueElTicketSeleccionadoPoseeLosSiguientesComentarios(DataTable dt) {
-        List<List<String>> ticketData = dt.asLists();
-        List<Comentario> comentarios = selectedTicket.getComentarios();
-        for (int i = 0; i < comentarios.size(); i++) {
-            assertEquals(comentarios.get(i).getComentario(), ticketData.get(i + 1).get(0));
-            assertEquals(comentarios.get(i).getUsuario(), ticketData.get(i + 1).get(1));
-            //assertEquals(comentarios.get(i).getFechaComentario(),ticketData.get(i+1).get(2));
+    public void modificoElTicket(String caso, TicketVistaActualizar ticketVista) {
+        if (!validator.validate(ticketVista).isEmpty()) {
+            ticket = null;
+            return;
         }
+        ticket = ticketControlador.actualizar(ticket.getId(), ticketVista);
     }
 }

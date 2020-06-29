@@ -1,4 +1,4 @@
-package psa.soporte.model;
+package psa.soporte.modelo;
 
 import lombok.Data;
 
