@@ -6,6 +6,7 @@ import io.cucumber.java.es.Cuando;
 import io.cucumber.java.es.Dado;
 import io.cucumber.java.es.Entonces;
 import io.cucumber.java.es.Y;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import psa.soporte.PsaApplication;
@@ -21,10 +22,10 @@ import javax.validation.Validator;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
-import static java.lang.Math.abs;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ContextConfiguration(classes = PsaApplication.class)
@@ -154,13 +155,12 @@ public class TicketPasos {
         assertEquals(ticket.getSeveridad(), ticketVista.getSeveridad());
         assertEquals(ticket.getTipo(), ticketVista.getTipo());
 
-        assertTrue(abs(ticket.getFechaDeCreacion().getTime() - ticketVista.getFechaDeCreacion().getTime()) < 1000);
-
         if (ticket.getFechaDeActualizacion() == null
                 || ticketVista.getFechaDeActualizacion() == null) {
             assertEquals(ticket.getFechaDeActualizacion(), ticketVista.getFechaDeActualizacion());
         } else {
-            assertTrue(abs(ticket.getFechaDeActualizacion().getTime() - ticketVista.getFechaDeCreacion().getTime()) < 1000);
+            assertEquals(DateUtils.truncate(ticket.getFechaDeActualizacion(), Calendar.SECOND),
+                    DateUtils.truncate(ticketVista.getFechaDeActualizacion(), Calendar.SECOND));
         }
     }
 

@@ -6,6 +6,7 @@ import psa.soporte.excepcion.TicketNoEncontradoExcepcion;
 import psa.soporte.modelo.Ticket;
 import psa.soporte.repositorio.TicketRepositorio;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -36,6 +37,7 @@ public class TicketServicio {
                     ticket.setDescripcion(nuevoTicket.getDescripcion());
                     ticket.setSeveridad(nuevoTicket.getSeveridad());
                     ticket.setResponsable(nuevoTicket.getResponsable());
+                    ticket.setFechaDeActualizacion(new Date());
                     return repositorio.save(ticket);
                 })
                 .orElseGet(() -> {
