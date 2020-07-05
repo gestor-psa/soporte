@@ -119,11 +119,11 @@ public class TicketPasos {
     }
 
     @Dado("que existe un producto con nombre {string} y versión {int}")
-    public void queExisteUnProductoConNombreYVersión(String arg0, int arg1) {
+    public void queExisteUnProductoConNombreYVersion(String arg0, int arg1) {
     }
 
     @Y("selecciono la versión {int} del producto {string}")
-    public void seleccionoLaVersiónDelProducto(int arg0, String arg1) {
+    public void seleccionoLaVersionDelProducto(int arg0, String arg1) {
     }
 
     @Cuando("creo un ticket {string} ingresando:")
@@ -136,7 +136,7 @@ public class TicketPasos {
     }
 
     @Entonces("veo que la operación fue {string}")
-    public void veoQueLaOperaciónFue(String resultado) {
+    public void veoQueLaOperacionFue(String resultado) {
         if (resultado.equals("exitosa")) {
             assertNotNull(ticket);
         } else if (resultado.equals("fallida")) {
@@ -198,4 +198,5 @@ public class TicketPasos {
         }
         ticket = ticketControlador.actualizar(ticket.getId(), ticketVista);
     }
+
 }
