@@ -13,10 +13,11 @@ import java.util.Date;
 public class Cliente {
 
     private @Id @GeneratedValue Long id;
-    private String nombre;
-    private String razonSocial;
-    private String cuit;
-    private Date fechaDesdeQueEsCliente;
+    private @NonNull String nombre;
+    private @NonNull String razonSocial;
+    private @NonNull String cuit;
+    private @NonNull Date fechaDesdeQueEsCliente;
+    private @NonNull String estado;
 
     public Cliente(){
         this.fechaDesdeQueEsCliente = Calendar.getInstance().getTime();
@@ -52,5 +53,13 @@ public class Cliente {
 
     public void setFechaDesdeQueEsCliente(Date fechaDesdeQueEsCliente) {
         this.fechaDesdeQueEsCliente = fechaDesdeQueEsCliente;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 }

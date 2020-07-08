@@ -10,8 +10,8 @@ Característica: Crear ticket
   Esquema del escenario: Crear cliente
     Dado que soy ingeniero de soporte
     Cuando creo un cliente "<caso>" ingresando:
-      | nombre   | razonsocial   | cuit   | fechacliente   | severidad   |
-      | <nombre> | <razonsocial> | <cuit> | <fechacliente> | <severidad> |
+      | nombre   | razonsocial   | cuit   | fechacliente   |
+      | <nombre> | <razonsocial> | <cuit> | <fechacliente> |
     Entonces veo que la operación de cliente fue "<resultado>"
 
     Ejemplos:
