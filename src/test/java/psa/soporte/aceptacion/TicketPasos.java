@@ -13,10 +13,9 @@ import psa.soporte.PsaApplication;
 import psa.soporte.controlador.TicketControlador;
 import psa.soporte.modelo.Ticket;
 import psa.soporte.servicio.TicketServicio;
-import psa.soporte.vista.TicketVistaActualizar;
-import psa.soporte.vista.TicketVistaCrear;
-import psa.soporte.vista.TicketVistaMostrar;
-
+import psa.soporte.vista.ticket.TicketVistaActualizar;
+import psa.soporte.vista.ticket.TicketVistaCrear;
+import psa.soporte.vista.ticket.TicketVistaMostrar;
 import javax.transaction.Transactional;
 import javax.validation.Validator;
 import java.text.DateFormat;
@@ -25,7 +24,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @ContextConfiguration(classes = PsaApplication.class)
@@ -119,11 +117,11 @@ public class TicketPasos {
     }
 
     @Dado("que existe un producto con nombre {string} y versión {int}")
-    public void queExisteUnProductoConNombreYVersión(String arg0, int arg1) {
+    public void queExisteUnProductoConNombreYVersion(String arg0, int arg1) {
     }
 
     @Y("selecciono la versión {int} del producto {string}")
-    public void seleccionoLaVersiónDelProducto(int arg0, String arg1) {
+    public void seleccionoLaVersionDelProducto(int arg0, String arg1) {
     }
 
     @Cuando("creo un ticket {string} ingresando:")
@@ -136,7 +134,7 @@ public class TicketPasos {
     }
 
     @Entonces("veo que la operación fue {string}")
-    public void veoQueLaOperaciónFue(String resultado) {
+    public void veoQueLaOperacionFue(String resultado) {
         if (resultado.equals("exitosa")) {
             assertNotNull(ticket);
         } else if (resultado.equals("fallida")) {
@@ -198,4 +196,5 @@ public class TicketPasos {
         }
         ticket = ticketControlador.actualizar(ticket.getId(), ticketVista);
     }
+
 }

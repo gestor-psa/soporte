@@ -26,4 +26,5 @@ public class Ticket {
         this.estado = "pendiente";
         fechaDeCreacion = new Date();
     }
+
 }

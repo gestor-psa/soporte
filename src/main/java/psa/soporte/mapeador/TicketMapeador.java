@@ -2,9 +2,9 @@ package psa.soporte.mapeador;
 
 import org.springframework.stereotype.Component;
 import psa.soporte.modelo.Ticket;
-import psa.soporte.vista.TicketVistaActualizar;
-import psa.soporte.vista.TicketVistaCrear;
-import psa.soporte.vista.TicketVistaMostrar;
+import psa.soporte.vista.ticket.TicketVistaActualizar;
+import psa.soporte.vista.ticket.TicketVistaCrear;
+import psa.soporte.vista.ticket.TicketVistaMostrar;
 
 @Component
 public class TicketMapeador {
