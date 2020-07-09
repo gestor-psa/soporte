@@ -1,11 +1,11 @@
 package psa.soporte.modelo;
 
 import lombok.Data;
+import lombok.NonNull;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.util.Calendar;
 import java.util.Date;
 
 @Data
@@ -20,7 +20,7 @@ public class Cliente {
     private @NonNull String estado;
 
     public Cliente(){
-        this.fechaDesdeQueEsCliente = Calendar.getInstance().getTime();
+        this.estado="activo";
     }
 
     public String getNombre() {

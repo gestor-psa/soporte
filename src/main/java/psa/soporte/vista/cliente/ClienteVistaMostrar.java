@@ -1,4 +1,4 @@
-package psa.soporte.vista;
+package psa.soporte.vista.cliente;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,4 +15,5 @@ public class ClienteVistaMostrar {
     private String cuit;
     private String estado;
     private Date fechaDesdeQueEsCliente;
+
 }

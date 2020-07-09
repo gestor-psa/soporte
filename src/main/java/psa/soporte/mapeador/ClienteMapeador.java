@@ -2,9 +2,9 @@ package psa.soporte.mapeador;
 
 import org.springframework.stereotype.Component;
 import psa.soporte.modelo.Cliente;
-import psa.soporte.vista.ClienteVistaActualizar;
-import psa.soporte.vista.ClienteVistaCrear;
-import psa.soporte.vista.ClienteVistaMostrar;
+import psa.soporte.vista.cliente.ClienteVistaActualizar;
+import psa.soporte.vista.cliente.ClienteVistaCrear;
+import psa.soporte.vista.cliente.ClienteVistaMostrar;
 
 @Component
 public class ClienteMapeador {
@@ -29,8 +29,8 @@ public class ClienteMapeador {
     }
 
     public ClienteVistaMostrar mapear(Cliente clienteVista) {
-        Cliente cliente = new Cliente();
-        cliente.setId(cliente.getId());
+        ClienteVistaMostrar cliente = new ClienteVistaMostrar();
+        cliente.setId(clienteVista.getId());
         cliente.setNombre(clienteVista.getNombre());
         cliente.setRazonSocial(clienteVista.getRazonSocial());
         cliente.setCuit(clienteVista.getCuit());

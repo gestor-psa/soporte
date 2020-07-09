@@ -1,12 +1,13 @@
 package psa.soporte.controlador;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import psa.soporte.mapeador.TicketMapeador;
 import psa.soporte.servicio.TicketServicio;
-import psa.soporte.vista.TicketVistaActualizar;
-import psa.soporte.vista.TicketVistaCrear;
-import psa.soporte.vista.TicketVistaMostrar;
+import psa.soporte.vista.ticket.TicketVistaActualizar;
+import psa.soporte.vista.ticket.TicketVistaCrear;
+import psa.soporte.vista.ticket.TicketVistaMostrar;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -28,10 +29,12 @@ public class TicketControlador {
                 .listarTickets()
                 .stream()
                 .map(ticket -> mapeador.mapear(ticket))
+                .sorted()
                 .collect(Collectors.toList());
     }
 
     @PostMapping("/tickets")
+    @ResponseStatus(code = HttpStatus.CREATED)
     public TicketVistaMostrar crear(@Valid @RequestBody TicketVistaCrear newTicket) {
         return mapeador.mapear(ticketServicio.crear(mapeador.mapear(newTicket)));
     }

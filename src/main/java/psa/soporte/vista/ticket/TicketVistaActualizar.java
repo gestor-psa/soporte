@@ -1,4 +1,4 @@
-package psa.soporte.vista;
+package psa.soporte.vista.ticket;
 
 import lombok.Getter;
 import lombok.Setter;

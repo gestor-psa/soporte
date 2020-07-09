@@ -6,7 +6,6 @@ import psa.soporte.excepcion.ClienteNoEncontradoExcepcion;
 import psa.soporte.modelo.Cliente;
 import psa.soporte.repositorio.ClienteRepositorio;
 
-import java.util.Date;
 import java.util.List;
 
 
@@ -35,7 +34,7 @@ public class ClienteServicio {
                     cliente.setRazonSocial(nuevoCliente.getRazonSocial());
                     cliente.setEstado(nuevoCliente.getEstado());
                     cliente.setCuit(nuevoCliente.getCuit());
-                    cliente.getFechaDesdeQueEsCliente(nuevoCliente.getFechaDesdeQueEsCliente());
+                    cliente.setFechaDesdeQueEsCliente(nuevoCliente.getFechaDesdeQueEsCliente());
                     return repositorio.save(cliente);
                 })
                 .orElseGet(() -> {
