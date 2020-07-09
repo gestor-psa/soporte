@@ -6,9 +6,7 @@ import io.cucumber.java.es.Dado;
 import io.cucumber.java.es.Entonces;
 import io.cucumber.java.es.Y;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.DirtiesContext;
 import psa.soporte.controlador.ClienteControlador;
-import psa.soporte.mapeador.ClienteMapeador;
 import psa.soporte.modelo.Cliente;
 import psa.soporte.servicio.ClienteServicio;
 import psa.soporte.vista.cliente.ClienteVistaActualizar;
@@ -20,6 +18,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -37,38 +36,32 @@ public class ClientePasos {
     private ClienteVistaMostrar cliente;
 
     @DataTableType
-    public ClienteVistaCrear definirClienteVistaCrear(Map<String, String> campos) throws ParseException {
+    public ClienteVistaCrear definirClienteVistaCrear(Map<String, String> campos) {
         ClienteVistaCrear clienteVista = new ClienteVistaCrear();
         clienteVista.setNombre(campos.get("nombre"));
         clienteVista.setRazonSocial(campos.get("razonSocial"));
         clienteVista.setCuit(campos.get("cuit"));
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-        try{
+        try {
             clienteVista.setFechaDesdeQueEsCliente(format.parse(campos.get("fechaCliente")));
-        }catch (ParseException e){
-            return null;
-        }
-        catch (NullPointerException e){
-            return null;
+        } catch (ParseException | NullPointerException e) {
+            clienteVista.setFechaDesdeQueEsCliente(null);
         }
         return clienteVista;
     }
 
     @DataTableType
-    public ClienteVistaActualizar definirClienteVistaActualizar(Map<String, String> campos) throws ParseException {
+    public ClienteVistaActualizar definirClienteVistaActualizar(Map<String, String> campos) {
         ClienteVistaActualizar clienteVista = new ClienteVistaActualizar();
         clienteVista.setNombre(campos.get("nombre"));
         clienteVista.setRazonSocial(campos.get("razonSocial"));
         clienteVista.setCuit(campos.get("cuit"));
         clienteVista.setEstado(campos.get("estado"));
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-        try{
+        try {
             clienteVista.setFechaDesdeQueEsCliente(format.parse(campos.get("fechaCliente")));
-        }catch (ParseException e){
-            return null;
-        }
-        catch (NullPointerException e){
-            return null;
+        } catch (ParseException | NullPointerException e) {
+            clienteVista.setFechaDesdeQueEsCliente(null);
         }
         return clienteVista;
     }
@@ -99,11 +92,6 @@ public class ClientePasos {
 
     @Cuando("creo un cliente {string} ingresando:")
     public void creoUnClienteIngresando(String caso, ClienteVistaCrear clienteVista) {
-        if (clienteVista == null){
-            cliente = null;
-            return;
-        }
-        System.out.println(validator.validate(clienteVista));
         if (!validator.validate(clienteVista).isEmpty()) {
             this.cliente = null;
             return;
@@ -117,7 +105,7 @@ public class ClientePasos {
         assertEquals(cliente.getCuit(), clienteVista.getCuit());
         assertEquals(cliente.getRazonSocial(), clienteVista.getRazonSocial());
         assertEquals(cliente.getEstado(), clienteVista.getEstado());
-        //assertEquals(cliente.getFechaDesdeQueEsCliente(), clienteVista.getFechaDesdeQueEsCliente()); ver como comparar dates correctamente
+        // assertEquals(cliente.getFechaDesdeQueEsCliente(), clienteVista.getFechaDesdeQueEsCliente());
     }
 
     @Dado("que existe un cliente con los siguientes atributos:")
@@ -127,11 +115,6 @@ public class ClientePasos {
 
     @Cuando("modifico el cliente {string}:")
     public void modificoElCliente(String caso, ClienteVistaActualizar clienteVista) {
-        if (clienteVista == null){
-            cliente = null;
-            return;
-        }
-        System.out.println(validator.validate(clienteVista));
         if (!validator.validate(clienteVista).isEmpty()) {
             cliente = null;
             return;
@@ -142,8 +125,8 @@ public class ClientePasos {
 
     @Y("selecciono un cliente con nombre {string}")
     public void seleccionoUnClienteConNombre(String nombre) {
-        for (ClienteVistaMostrar clienteVista: clienteControlador.listarClientes()) {
-            if(clienteVista.getNombre().equals(nombre))
+        for (ClienteVistaMostrar clienteVista : clienteControlador.listarClientes()) {
+            if (clienteVista.getNombre().equals(nombre))
                 cliente = clienteVista;
         }
     }
