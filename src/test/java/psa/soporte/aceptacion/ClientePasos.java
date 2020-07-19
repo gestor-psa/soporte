@@ -41,12 +41,7 @@ public class ClientePasos {
         clienteVista.setNombre(campos.get("nombre"));
         clienteVista.setRazonSocial(campos.get("razonSocial"));
         clienteVista.setCuit(campos.get("cuit"));
-        DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-        try {
-            clienteVista.setFechaDesdeQueEsCliente(format.parse(campos.get("fechaCliente")));
-        } catch (ParseException | NullPointerException e) {
-            clienteVista.setFechaDesdeQueEsCliente(null);
-        }
+        clienteVista.setFechaDesdeQueEsCliente(campos.get("fechaCliente"));
         return clienteVista;
     }
 
@@ -57,12 +52,7 @@ public class ClientePasos {
         clienteVista.setRazonSocial(campos.get("razonSocial"));
         clienteVista.setCuit(campos.get("cuit"));
         clienteVista.setEstado(campos.get("estado"));
-        DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-        try {
-            clienteVista.setFechaDesdeQueEsCliente(format.parse(campos.get("fechaCliente")));
-        } catch (ParseException | NullPointerException e) {
-            clienteVista.setFechaDesdeQueEsCliente(null);
-        }
+        clienteVista.setFechaDesdeQueEsCliente(campos.get("fechaCliente"));
         return clienteVista;
     }
 
@@ -73,8 +63,7 @@ public class ClientePasos {
         clienteVista.setRazonSocial(campos.get("razonSocial"));
         clienteVista.setCuit(campos.get("cuit"));
         clienteVista.setEstado(campos.get("estado"));
-        DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-        clienteVista.setFechaDesdeQueEsCliente(format.parse(campos.get("fechaCliente")));
+        clienteVista.setFechaDesdeQueEsCliente(campos.get("fechaCliente"));
         return clienteVista;
     }
 
@@ -85,8 +74,7 @@ public class ClientePasos {
         cliente.setRazonSocial(campos.get("razonSocial"));
         cliente.setCuit(campos.get("cuit"));
         cliente.setEstado(campos.get("estado"));
-        DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-        cliente.setFechaDesdeQueEsCliente(format.parse(campos.get("fechaCliente")));
+        cliente.setFechaDesdeQueEsCliente(campos.get("fechaCliente"));
         return cliente;
     }
 
@@ -105,7 +93,7 @@ public class ClientePasos {
         assertEquals(cliente.getCuit(), clienteVista.getCuit());
         assertEquals(cliente.getRazonSocial(), clienteVista.getRazonSocial());
         assertEquals(cliente.getEstado(), clienteVista.getEstado());
-        // assertEquals(cliente.getFechaDesdeQueEsCliente(), clienteVista.getFechaDesdeQueEsCliente());
+        assertEquals(cliente.getFechaDesdeQueEsCliente(), clienteVista.getFechaDesdeQueEsCliente());
     }
 
     @Dado("que existe un cliente con los siguientes atributos:")
@@ -119,7 +107,6 @@ public class ClientePasos {
             cliente = null;
             return;
         }
-
         cliente = clienteControlador.actualizar(cliente.getId(), clienteVista);
     }
 

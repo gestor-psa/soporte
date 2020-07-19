@@ -6,7 +6,6 @@ import lombok.NonNull;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.util.Date;
 
 @Data
 @Entity
@@ -16,7 +15,7 @@ public class Cliente {
     private @NonNull String nombre;
     private @NonNull String razonSocial;
     private @NonNull String cuit;
-    private @NonNull Date fechaDesdeQueEsCliente;
+    private @NonNull String fechaDesdeQueEsCliente;
     private @NonNull String estado;
 
     public Cliente() {

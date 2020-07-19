@@ -1,32 +1,25 @@
 # language: es
-Característica: Crear ticket
+Característica: Crear Tarea
   Como ingeniero de soporte
-  Deseo crear un cliente
-  Para poder saber quien reporto la incidencia que derivara en un ticket
+  Deseo crear una Tarea asociada a un ticket
+  Para poder derivarle al equipo de desarrollo la responsabilidad de resolver la incidencia reportada en el ticket
 
+  Antecedentes:
+    Dado que existe un ticket:
 
-  Esquema del escenario: Crear cliente
+  Esquema del escenario: Crear tarea
     Dado que soy ingeniero de soporte
-    Cuando creo un cliente "<caso>" ingresando:
-      | nombre   | razonSocial   | cuit   | fechaCliente   |
-      | <nombre> | <razonSocial> | <cuit> | <fechaCliente> |
-    Entonces veo que la operación de cliente fue "<resultado>"
+    Cuando creo una tarea "<caso>" ingresando:
+      | nombre   | proyecto   | descripcion   | estado   | fechaInicio   |
+      | <nombre> | <proyecto> | <descripcion> | <estado> | <fechaInicio> |
+    Entonces veo que la operacion de creacion de tarea fue "<resultado>"
 
     Ejemplos:
-      | caso                        | resultado | nombre    | razonSocial     | cuit        | fechaCliente |
-      | sin nombre                  | fallida   |           | Aninfo Software | 20384532547 | 20/03/2020   |
-      | sin razon social            | fallida   | Juan Diaz |                 | 20384532547 | 20/03/2020   |
-      | sin cuit                    | fallida   | Juan Diaz | Aninfo Software |             | 20/03/2020   |
-      | sin fechaCliente            | fallida   | Juan Diaz | Aninfo Software | 20384532547 |              |
-      | con cuit incorrecto         | fallida   | Juan Diaz | Aninfo Software | qwertyuiop  | 20/03/2020   |
-      | con fechaCliente incorrecto | fallida   | Juan Diaz | Aninfo Software | 20384532547 | qwertyuiop   |
-      | correctamente               | exitosa   | Juan Diaz | Aninfo Software | 20384532547 | 20/03/2020   |
-
-  Escenario: Creación exitosa
-    Dado que soy ingeniero de soporte
-    Cuando creo un cliente "correctamente" ingresando:
-      | nombre    | razonSocial     | cuit        | fechaCliente |
-      | Juan Diaz | Aninfo Software | 20384532547 | 20/03/2020   |
-    Entonces veo que el cliente posee los siguientes atributos:
-      | nombre    | razonSocial     | cuit        | fechaCliente | estado |
-      | Juan Diaz | Aninfo Software | 20384532547 | 20/03/2020   | activo |
+      | caso                  | nombre                                    | proyecto                        | descripcion                                                                     | estado      | fechaInicio |
+      | sin nombre            |                                           |                                 | Un usuario reporto que no se muestran las tareas creadas despues del 12/07/2020 | No iniciada | 20/03/2020  |
+      | sin proyecto          | Corregir Error de Visualizacion de Tareas |                                 | Un usuario reporto que no se muestran las tareas creadas despues del 12/07/2020 | No iniciada | 20/03/2020  |
+      | sin descripcion       | Corregir Error de Visualizacion de Tareas | Desarrollo PSA Spring ERP 2.0.2 |                                                                                 | No iniciada | 20/03/2020  |
+      | sin estado            | Corregir Error de Visualizacion de Tareas | Desarrollo PSA Spring ERP 2.0.2 | Un usuario reporto que no se muestran las tareas creadas despues del 12/07/2020 |             | 20/03/2020  |
+      | con estado incorrecto | Corregir Error de Visualizacion de Tareas | Desarrollo PSA Spring ERP 2.0.2 | Un usuario reporto que no se muestran las tareas creadas despues del 12/07/2020 | Empezada    | 20/03/2020  |
+      | sin fechaInicio       | Corregir Error de Visualizacion de Tareas | Desarrollo PSA Spring ERP 2.0.2 | Un usuario reporto que no se muestran las tareas creadas despues del 12/07/2020 | No iniciada |             |
+      | correctamente         | Corregir Error de Visualizacion de Tareas | Desarrollo PSA Spring ERP 2.0.2 | Un usuario reporto que no se muestran las tareas creadas despues del 12/07/2020 | No iniciada | 20/03/2020  |
