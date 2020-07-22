@@ -2,9 +2,12 @@ package psa.soporte.vista.cliente;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -20,9 +23,9 @@ public class ClienteVistaActualizar {
     @Pattern(regexp = "^[0-9]{11}$", message = "El cuit debe estar compuesto de 11 numeros")
     private String cuit;
 
-    @NotBlank(message = "La fecha es requerida")
-    @Pattern(regexp = "^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\\d\\d$", message = "La fecha debe estar en formato dd/mm/yyyy")
-    private String fechaDesdeQueEsCliente;
+    @NotNull(message = "La fecha es requerida, y debe ser en formato yyyy/MM/dd")
+    @DateTimeFormat(pattern = "yyyy/MM/dd")
+    private LocalDate fechaDesdeQueEsCliente;
 
     @NotBlank(message = "El estado es requerido")
     @Pattern(regexp = "^(activo|inactivo)$", message = "El tipo solo puede ser activo o inactivo")
