@@ -48,8 +48,4 @@ public class ClienteControlador {
         return mapeador.mapear(clienteServicio.actualizar(id, mapeador.mapear(cliente)));
     }
 
-    @DeleteMapping("/clientes/{id}")
-    public void eliminar(@PathVariable Long id) {
-        clienteServicio.eliminar(id);
-    }
 }

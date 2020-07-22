@@ -42,7 +42,4 @@ public class ClienteServicio {
                 });
     }
 
-    public void eliminar(Long id) {
-        repositorio.deleteById(id);
-    }
 }

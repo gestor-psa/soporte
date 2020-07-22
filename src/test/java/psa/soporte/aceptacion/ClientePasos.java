@@ -14,12 +14,15 @@ import psa.soporte.vista.cliente.ClienteVistaCrear;
 import psa.soporte.vista.cliente.ClienteVistaMostrar;
 
 import javax.validation.Validator;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class ClientePasos {
@@ -41,7 +44,12 @@ public class ClientePasos {
         clienteVista.setNombre(campos.get("nombre"));
         clienteVista.setRazonSocial(campos.get("razonSocial"));
         clienteVista.setCuit(campos.get("cuit"));
-        clienteVista.setFechaDesdeQueEsCliente(campos.get("fechaCliente"));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        try {
+            clienteVista.setFechaDesdeQueEsCliente(LocalDate.parse(campos.get("fechaCliente"),formatter));
+        } catch (DateTimeParseException | NullPointerException e) {
+            clienteVista.setFechaDesdeQueEsCliente(null);
+        }
         return clienteVista;
     }
 
@@ -52,7 +60,12 @@ public class ClientePasos {
         clienteVista.setRazonSocial(campos.get("razonSocial"));
         clienteVista.setCuit(campos.get("cuit"));
         clienteVista.setEstado(campos.get("estado"));
-        clienteVista.setFechaDesdeQueEsCliente(campos.get("fechaCliente"));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        try {
+            clienteVista.setFechaDesdeQueEsCliente(LocalDate.parse(campos.get("fechaCliente"),formatter));
+        } catch (DateTimeParseException | NullPointerException e) {
+            clienteVista.setFechaDesdeQueEsCliente(null);
+        }
         return clienteVista;
     }
 
@@ -63,7 +76,12 @@ public class ClientePasos {
         clienteVista.setRazonSocial(campos.get("razonSocial"));
         clienteVista.setCuit(campos.get("cuit"));
         clienteVista.setEstado(campos.get("estado"));
-        clienteVista.setFechaDesdeQueEsCliente(campos.get("fechaCliente"));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        try {
+            clienteVista.setFechaDesdeQueEsCliente(LocalDate.parse(campos.get("fechaCliente"),formatter));
+        } catch (DateTimeParseException | NullPointerException e) {
+            clienteVista.setFechaDesdeQueEsCliente(null);
+        }
         return clienteVista;
     }
 
@@ -74,7 +92,12 @@ public class ClientePasos {
         cliente.setRazonSocial(campos.get("razonSocial"));
         cliente.setCuit(campos.get("cuit"));
         cliente.setEstado(campos.get("estado"));
-        cliente.setFechaDesdeQueEsCliente(campos.get("fechaCliente"));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        try {
+            cliente.setFechaDesdeQueEsCliente(LocalDate.parse(campos.get("fechaCliente"),formatter));
+        } catch (DateTimeParseException | NullPointerException e) {
+            cliente.setFechaDesdeQueEsCliente(null);
+        }
         return cliente;
     }
 
