@@ -6,19 +6,22 @@ import lombok.NonNull;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.Date;
 
 @Data
 @Entity
-public class Cliente {
+public class Tarea {
 
     private @Id @GeneratedValue Long id;
     private @NonNull String nombre;
-    private @NonNull String razonSocial;
-    private @NonNull String cuit;
-    private @NonNull String fechaDesdeQueEsCliente;
+    private @NonNull String proyecto;
+    private @NonNull String descripcion;
     private @NonNull String estado;
+    private @NonNull Date fechaInicio;
 
-    public Cliente() {
-        this.estado = "activo";
+    public Tarea(){
+        this.estado = "No iniciada";
+        this.fechaInicio = new Date();
     }
+
 }

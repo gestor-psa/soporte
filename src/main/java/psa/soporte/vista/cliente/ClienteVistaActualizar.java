@@ -1,13 +1,10 @@
 package psa.soporte.vista.cliente;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.util.Date;
 
 @Getter
 @Setter
@@ -23,9 +20,9 @@ public class ClienteVistaActualizar {
     @Pattern(regexp = "^[0-9]{11}$", message = "El cuit debe estar compuesto de 11 numeros")
     private String cuit;
 
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    @NotNull(message = "La fecha desde la que es cliente es requerida")
-    private Date fechaDesdeQueEsCliente;
+    @NotBlank(message = "La fecha es requerida")
+    @Pattern(regexp = "^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\\d\\d$", message = "La fecha debe estar en formato dd/mm/yyyy")
+    private String fechaDesdeQueEsCliente;
 
     @NotBlank(message = "El estado es requerido")
     @Pattern(regexp = "^(activo|inactivo)$", message = "El tipo solo puede ser activo o inactivo")

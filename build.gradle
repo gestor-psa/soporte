@@ -25,6 +25,9 @@ configurations {
 
 repositories {
     mavenCentral()
+
+    //Mockito.
+    jcenter()
 }
 
 dependencies {
@@ -45,12 +48,15 @@ dependencies {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
 
-    // Cucumber
+    // Cucumber.
     testImplementation 'io.cucumber:cucumber-java:5.6.0'
     testImplementation 'io.cucumber:cucumber-spring:5.6.0'
 
     // Development.
     developmentOnly("org.springframework.boot:spring-boot-devtools")
+
+    //Mockito.
+    testCompile "org.mockito:mockito-core:2.+"
 }
 
 test {
