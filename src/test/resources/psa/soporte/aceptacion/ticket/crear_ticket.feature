@@ -9,7 +9,6 @@ Característica: Crear ticket
 
   Esquema del escenario: Crear de ticket
     Dado que soy ingeniero de soporte
-    Y selecciono la versión 2 del producto "PSA ERP"
     Cuando creo un ticket "<caso>" ingresando:
       | nombre   | descripcion   | responsableDni   | tipo   | severidad   |
       | <nombre> | <descripcion> | <responsableDni> | <tipo> | <severidad> |
@@ -45,4 +44,3 @@ Característica: Crear ticket
     Y veo que posee el siguiente cliente:
       | nombre    | razonSocial     | cuit        | fechaCliente | estado |
       | Juan Diaz | Aninfo Software | 20384532547 | 2020/03/20   | activo |
-    Y veo que no posee comentarios

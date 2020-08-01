@@ -1,7 +1,10 @@
 package psa.soporte.mapeador;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import psa.soporte.excepcion.ClienteNoEncontradoExcepcion;
 import psa.soporte.modelo.Ticket;
+import psa.soporte.servicio.ClienteServicio;
 import psa.soporte.vista.ticket.TicketVistaActualizar;
 import psa.soporte.vista.ticket.TicketVistaCrear;
 import psa.soporte.vista.ticket.TicketVistaMostrar;
@@ -9,18 +12,21 @@ import psa.soporte.vista.ticket.TicketVistaMostrar;
 @Component
 public class TicketMapeador {
 
-    public Ticket mapear(TicketVistaCrear ticketVista) {
+    @Autowired
+    private ClienteServicio clienteServicio;
+
+    public Ticket mapear(TicketVistaCrear ticketVista) throws ClienteNoEncontradoExcepcion {
         Ticket ticket = new Ticket();
         ticket.setNombre(ticketVista.getNombre());
         ticket.setDescripcion(ticketVista.getDescripcion());
         ticket.setTipo(ticketVista.getTipo());
         ticket.setSeveridad(ticketVista.getSeveridad());
         ticket.setResponsableDni(ticketVista.getResponsableDni());
-        ticket.setCliente(ticketVista.getCliente());
+        ticket.setCliente(clienteServicio.obtener(ticketVista.getClienteId()));
         return ticket;
     }
 
-    public Ticket mapear(TicketVistaActualizar ticketVista) {
+    public Ticket mapear(TicketVistaActualizar ticketVista) throws ClienteNoEncontradoExcepcion {
         Ticket ticket = new Ticket();
         ticket.setNombre(ticketVista.getNombre());
         ticket.setDescripcion(ticketVista.getDescripcion());
@@ -28,7 +34,7 @@ public class TicketMapeador {
         ticket.setSeveridad(ticketVista.getSeveridad());
         ticket.setResponsableDni(ticketVista.getResponsableDni());
         ticket.setEstado(ticketVista.getEstado());
-        ticket.setCliente(ticketVista.getCliente());
+        ticket.setCliente(clienteServicio.obtener(ticketVista.getClienteId()));
         return ticket;
     }
 
@@ -38,7 +44,6 @@ public class TicketMapeador {
         ticketVista.setNombre(ticket.getNombre());
         ticketVista.setDescripcion(ticket.getDescripcion());
         ticketVista.setTipo(ticket.getTipo());
-        ticketVista.setNombre(ticket.getNombre());
         ticketVista.setSeveridad(ticket.getSeveridad());
         ticketVista.setResponsableDni(ticket.getResponsableDni());
         ticketVista.setEstado(ticket.getEstado());

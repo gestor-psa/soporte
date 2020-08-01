@@ -2,7 +2,6 @@ package psa.soporte.vista.ticket;
 
 import lombok.Getter;
 import lombok.Setter;
-import psa.soporte.modelo.Cliente;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -26,8 +25,6 @@ public class TicketVistaCrear {
     @Pattern(regexp = "^(alta|media|baja)$",
             message = "La severidad solo puede ser alta, media o baja")
     private String severidad;
-
     private Long responsableDni;
-
-    private Cliente cliente;
+    private Long clienteId;
 }

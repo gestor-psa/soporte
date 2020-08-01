@@ -15,12 +15,12 @@ public class ReporteControlador {
     @Autowired
     private ReporteServicio reporteServicio;
 
-    @GetMapping("/reportes/acumulado")
+    @GetMapping("/reportes/ticketsPendientes")
     public TreeMap<LocalDate,Integer> acumulado() {
         return reporteServicio.acumulado();
     }
 
-    @GetMapping("/reportes/estadosdiarios")
+    @GetMapping("/reportes/ticketsAbiertosYCerradosPorDia")
     public TreeMap<LocalDate,ArrayList<Integer>> estadosdiarios() {
         return reporteServicio.estadosdiarios();
     }

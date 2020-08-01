@@ -2,7 +2,6 @@ package psa.soporte.vista.ticket;
 
 import lombok.Getter;
 import lombok.Setter;
-import psa.soporte.modelo.Cliente;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -31,8 +30,6 @@ public class TicketVistaActualizar {
     @Pattern(regexp = "^(pendiente|iniciado|cerrado)$",
             message = "El estado solo puede ser pendiente, iniciado o cerrado")
     private String estado;
-
     private Long responsableDni;
-
-    private Cliente cliente;
+    private Long clienteId;
 }

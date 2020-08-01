@@ -5,21 +5,15 @@ Característica: Actualizar Ticket
   Para actualizar su estado
 
   Antecedentes:
-    Dado que existe un ticket con los siguientes atributos:
-      | nombre                 | descripcion                  | responsableDni | tipo     | severidad | estado    | fechaDeCreacion     | fechaDeActualizacion |
-      | Consulta sobre pedidos | ¿Cuál es el costo del envío? | 41226943    | consulta | baja      | pendiente | 2020/06/20 13:53:45 | 2020/06/20 13:58:24  |
-    Y con los siguientes comentarios:
-      | comentario                                                              | usuario        | fecha               |
-      | El usuario preguntó por el costo de envío                               | Matias Marquez | 2020/06/20 13:54:17 |
-      | Se respondío al usuario que eso se calcula al ingresar el código postal | Matias Marquez | 2020/06/20 13:56:58 |
-    Y con el siguiente cliente:
+    Dado que existe un cliente con los siguientes atributoss:
       | nombre    | razonSocial     | cuit        | fechaCliente | estado |
       | Juan Diaz | Aninfo Software | 20384532547 | 2020/03/20   | activo |
-    Y que existe un producto con nombre "PSA ERP" y versión 2
+    Y que existe un ticket con los siguientes atributos:
+      | nombre                 | descripcion                  | responsableDni | tipo     | severidad | estado   | fechaDeCreacion     | fechaDeActualizacion |
+      | Consulta sobre pedidos | ¿Cuál es el costo del envío? | 41226943       | consulta | baja      | iniciado | 2020/06/20 13:53:45 | 2020/06/20 13:58:24  |
 
   Esquema del escenario: Actualizar ticket
     Dado que soy ingeniero de soporte
-    Y selecciono la versión 2 del producto "PSA ERP"
     Y selecciono un ticket con nombre "Consulta sobre pedidos"
     Cuando modifico el ticket "<caso>":
       | nombre   | descripcion   | responsableDni   | tipo   | severidad   | estado   |
@@ -40,7 +34,6 @@ Característica: Actualizar Ticket
 
   Esquema del escenario: Actualización exitosa
     Dado que soy ingeniero de soporte
-    Y selecciono la versión 2 del producto "PSA ERP"
     Y selecciono un ticket con nombre "Consulta sobre pedidos"
     Cuando modifico el ticket "<caso>":
       | nombre   | descripcion   | responsableDni   | tipo   | severidad   | estado   |
@@ -48,10 +41,6 @@ Característica: Actualizar Ticket
     Entonces veo que posee los siguientes atributos:
       | nombre   | descripcion   | responsableDni   | tipo   | severidad   | estado   | fechaDeCreacion     | fechaDeActualizacion |
       | <nombre> | <descripcion> | <responsableDni> | <tipo> | <severidad> | <estado> | 2020/06/20 13:53:45 | ahora                |
-    Y veo que posee los siguientes comentarios:
-      | comentario                                                              | usuario        | fecha               |
-      | El usuario preguntó por el costo de envío                               | Matias Marquez | 2020/06/20 13:54:17 |
-      | Se respondío al usuario que eso se calcula al ingresar el código postal | Matias Marquez | 2020/06/20 13:56:58 |
     Y veo que posee el siguiente cliente:
       | nombre    | razonSocial     | cuit        | fechaCliente | estado |
       | Juan Diaz | Aninfo Software | 20384532547 | 2020/03/20   | activo |

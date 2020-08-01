@@ -2,8 +2,6 @@ package psa.soporte.modelo;
 
 import lombok.Data;
 import lombok.NonNull;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -23,9 +21,7 @@ public class Ticket {
     private Date fechaDeCierre;
     private Long responsableDni;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "cliente_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Cliente cliente;
 
     public Ticket() {

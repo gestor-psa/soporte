@@ -15,12 +15,10 @@ import psa.soporte.modelo.Cliente;
 import psa.soporte.modelo.Ticket;
 import psa.soporte.servicio.ClienteServicio;
 import psa.soporte.servicio.TicketServicio;
-import psa.soporte.vista.cliente.ClienteVistaMostrar;
 import psa.soporte.vista.ticket.TicketVistaActualizar;
 import psa.soporte.vista.ticket.TicketVistaCrear;
 import psa.soporte.vista.ticket.TicketVistaMostrar;
 
-import javax.transaction.Transactional;
 import javax.validation.Validator;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -46,20 +44,18 @@ public class TicketPasos {
     @Autowired
     private ClienteServicio clienteServicio;
 
-    private Ticket ticketTicket;
+    private Cliente clienteCreado;
     private TicketVistaMostrar ticket;
-    private TicketVistaCrear ticketCrear;
-    private ClienteVistaMostrar cliente;
+    private Ticket ticketCreado;
 
     @DataTableType
     public TicketVistaCrear definirTicketVistaCrear(Map<String, String> campos) {
         TicketVistaCrear ticketVista = new TicketVistaCrear();
         ticketVista.setNombre(campos.get("nombre"));
         ticketVista.setDescripcion(campos.get("descripcion"));
-        try{
+        try {
             ticketVista.setResponsableDni(Long.parseLong(campos.get("responsableDni")));
-        }
-        catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             ticketVista.setResponsableDni(null);
         }
         ticketVista.setTipo(campos.get("tipo"));
@@ -72,10 +68,9 @@ public class TicketPasos {
         TicketVistaMostrar ticketVista = new TicketVistaMostrar();
         ticketVista.setNombre(campos.get("nombre"));
         ticketVista.setDescripcion(campos.get("descripcion"));
-        try{
+        try {
             ticketVista.setResponsableDni(Long.parseLong(campos.get("responsableDni")));
-        }
-        catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             ticketVista.setResponsableDni(null);
         }
         ticketVista.setTipo(campos.get("tipo"));
@@ -92,7 +87,7 @@ public class TicketPasos {
         ticketVista.setFechaDeCreacion(fechaDeCreacion);
 
         Date fechaDeActualizacion = null;
-        if(campos.get("fechaDeActualizacion") != null ) {
+        if (campos.get("fechaDeActualizacion") != null) {
             if (campos.get("fechaDeActualizacion").equals("ahora")) {
                 fechaDeActualizacion = new Date();
             } else {
@@ -109,10 +104,9 @@ public class TicketPasos {
         TicketVistaActualizar ticketVista = new TicketVistaActualizar();
         ticketVista.setNombre(campos.get("nombre"));
         ticketVista.setDescripcion(campos.get("descripcion"));
-        try{
+        try {
             ticketVista.setResponsableDni(Long.parseLong(campos.get("responsableDni")));
-        }
-        catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             ticketVista.setResponsableDni(null);
         }
         ticketVista.setTipo(campos.get("tipo"));
@@ -126,10 +120,9 @@ public class TicketPasos {
         Ticket ticket = new Ticket();
         ticket.setNombre(campos.get("nombre"));
         ticket.setDescripcion(campos.get("descripcion"));
-        try{
+        try {
             ticket.setResponsableDni(Long.parseLong(campos.get("responsableDni")));
-        }
-        catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             ticket.setResponsableDni(null);
         }
         ticket.setTipo(campos.get("tipo"));
@@ -161,8 +154,7 @@ public class TicketPasos {
             this.ticket = null;
             return;
         }
-        this.ticketCrear = ticket;
-        //this.ticket = ticketControlador.crear(ticket);
+
     }
 
     @Entonces("veo que la operación fue {string}")
@@ -194,31 +186,21 @@ public class TicketPasos {
         }
     }
 
-    @Transactional
-    @Y("veo que no posee comentarios")
-    public void veoQueNoPoseeComentarios() {
-    }
 
     @Dado("que existe un ticket con los siguientes atributos:")
     public void queExisteUnTicketConLosSiguientesAtributos(Ticket ticket) {
-        this.ticketTicket = ticket;
-        //ticketServicio.crear(ticket);
+        ticket.setCliente(clienteCreado);
+        ticketCreado = ticketServicio.crear(ticket);
+        this.ticket = ticketControlador.obtener(ticketCreado.getId());
     }
 
-    @Y("con los siguientes comentarios:")
-    public void conLosSiguientesComentarios(DataTable dt) {
-    }
 
     @Cuando("selecciono un ticket con nombre {string}")
     public void seleccionoUnTicketConNombre(String nombre) {
-        for (TicketVistaMostrar ticketVista: ticketControlador.listarTickets()) {
-            if(ticketVista.getNombre().equals(nombre))
-                ticket = ticketVista;
+        for (TicketVistaMostrar ticketVista : ticketControlador.listarTickets()) {
+            if (ticketVista.getNombre().equals(nombre))
+                return;
         }
-    }
-
-    @Y("veo que posee los siguientes comentarios:")
-    public void veoQuePoseeLosSiguientesComentarios(DataTable dt) {
     }
 
     @Cuando("modifico el ticket {string}:")
@@ -230,43 +212,24 @@ public class TicketPasos {
         ticket = ticketControlador.actualizar(ticket.getId(), ticketVista);
     }
 
-    @Y("con el siguiente cliente:")
-    public void conElSiguienteCliente(Cliente clienteVista) {
-
-        /*if(ticket!=null) {
-            Cliente cliente = new Cliente();
-            cliente.setNombre(clienteVista.getNombre());
-            cliente.setRazonSocial(clienteVista.getRazonSocial());
-            cliente.setCuit(clienteVista.getCuit());
-            cliente.setFechaDesdeQueEsCliente(clienteVista.getFechaDesdeQueEsCliente());
-            cliente.setEstado(clienteVista.getEstado());
-            ticket.setCliente(clienteVista);
-        }*/
-        if(ticketCrear!=null) {
-            ticketCrear.setCliente(clienteServicio.crear(clienteVista));
-            this.ticket = ticketControlador.crear(ticketCrear);
-        }
-        if(ticketTicket!=null){
-            ticketTicket.setCliente(clienteServicio.crear(clienteVista));
-            ticketServicio.crear(ticketTicket);
-        }
-
-    }
-
     @Y("veo que posee el siguiente cliente:")
     public void veoQuePoseeElSiguienteCliente(Cliente clienteVista) {
 
-        if(ticket!=null) {
-            Cliente cliente = ticket.getCliente();
-            //Cliente cliente = ticketServicio.obtener(ticket.getId()).getCliente();
-            if (cliente!=null) {
-                assertEquals(cliente.getNombre(), clienteVista.getNombre());
-                assertEquals(cliente.getRazonSocial(), clienteVista.getRazonSocial());
-                assertEquals(cliente.getCuit(), clienteVista.getCuit());
-                assertEquals(cliente.getFechaDesdeQueEsCliente(), clienteVista.getFechaDesdeQueEsCliente());
-                assertEquals(cliente.getEstado(), clienteVista.getEstado());
-            }
-        }
+        Cliente cliente = ticket.getCliente();
+        assertEquals(cliente.getNombre(), clienteVista.getNombre());
+        assertEquals(cliente.getRazonSocial(), clienteVista.getRazonSocial());
+        assertEquals(cliente.getCuit(), clienteVista.getCuit());
+        assertEquals(cliente.getFechaDesdeQueEsCliente(), clienteVista.getFechaDesdeQueEsCliente());
+        assertEquals(cliente.getEstado(), clienteVista.getEstado());
 
+    }
+
+    @Dado("que existe un cliente con los siguientes atributoss:")
+    public void queExisteUnClienteConLosSiguientesAtributoss(Cliente clienteVista) {
+        this.clienteCreado = clienteServicio.crear(clienteVista);
+    }
+
+    @Y("con el siguiente cliente:")
+    public void conElSiguienteCliente(Cliente cliente) {
     }
 }
