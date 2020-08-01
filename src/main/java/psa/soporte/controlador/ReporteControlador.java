@@ -24,4 +24,5 @@ public class ReporteControlador {
     public TreeMap<LocalDate,ArrayList<Integer>> estadosdiarios() {
         return reporteServicio.estadosdiarios();
     }
+
 }

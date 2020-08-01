@@ -23,8 +23,7 @@ public class Ticket {
     private Date fechaDeCierre;
     private Long responsableDni;
 
-    @Transient
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "cliente_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Cliente cliente;

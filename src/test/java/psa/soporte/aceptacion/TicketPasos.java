@@ -13,6 +13,7 @@ import psa.soporte.PsaApplication;
 import psa.soporte.controlador.TicketControlador;
 import psa.soporte.modelo.Cliente;
 import psa.soporte.modelo.Ticket;
+import psa.soporte.servicio.ClienteServicio;
 import psa.soporte.servicio.TicketServicio;
 import psa.soporte.vista.cliente.ClienteVistaMostrar;
 import psa.soporte.vista.ticket.TicketVistaActualizar;
@@ -41,6 +42,9 @@ public class TicketPasos {
 
     @Autowired
     private TicketServicio ticketServicio;
+
+    @Autowired
+    private ClienteServicio clienteServicio;
 
     private Ticket ticketTicket;
     private TicketVistaMostrar ticket;
@@ -239,11 +243,11 @@ public class TicketPasos {
             ticket.setCliente(clienteVista);
         }*/
         if(ticketCrear!=null) {
-            ticketCrear.setCliente(clienteVista);
+            ticketCrear.setCliente(clienteServicio.crear(clienteVista));
             this.ticket = ticketControlador.crear(ticketCrear);
         }
         if(ticketTicket!=null){
-            ticketTicket.setCliente(clienteVista);
+            ticketTicket.setCliente(clienteServicio.crear(clienteVista));
             ticketServicio.crear(ticketTicket);
         }
 
@@ -254,7 +258,8 @@ public class TicketPasos {
 
         if(ticket!=null) {
             Cliente cliente = ticket.getCliente();
-            if(cliente!=null){
+            //Cliente cliente = ticketServicio.obtener(ticket.getId()).getCliente();
+            if (cliente!=null) {
                 assertEquals(cliente.getNombre(), clienteVista.getNombre());
                 assertEquals(cliente.getRazonSocial(), clienteVista.getRazonSocial());
                 assertEquals(cliente.getCuit(), clienteVista.getCuit());
