@@ -2,10 +2,10 @@ package psa.soporte.modelo;
 
 import lombok.Data;
 import lombok.NonNull;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Data
@@ -18,9 +18,15 @@ public class Ticket {
     private @NonNull String tipo;
     private @NonNull String estado;
     private @NonNull String severidad;
-    private String responsable;
     private @NonNull Date fechaDeCreacion;
     private Date fechaDeActualizacion;
+    private Date fechaDeCierre;
+    private Long responsableDni;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "cliente_id", nullable = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Cliente cliente;
 
     public Ticket() {
         this.estado = "pendiente";

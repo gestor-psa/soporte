@@ -15,7 +15,8 @@ public class TicketMapeador {
         ticket.setDescripcion(ticketVista.getDescripcion());
         ticket.setTipo(ticketVista.getTipo());
         ticket.setSeveridad(ticketVista.getSeveridad());
-        ticket.setResponsable(ticketVista.getResponsable());
+        ticket.setResponsableDni(ticketVista.getResponsableDni());
+        ticket.setCliente(ticketVista.getCliente());
         return ticket;
     }
 
@@ -25,8 +26,10 @@ public class TicketMapeador {
         ticket.setDescripcion(ticketVista.getDescripcion());
         ticket.setTipo(ticketVista.getTipo());
         ticket.setSeveridad(ticketVista.getSeveridad());
-        ticket.setResponsable(ticketVista.getResponsable());
+        ticket.setResponsableDni(ticketVista.getResponsableDni());
+        ticket.setFechaDeCierre(ticketVista.getFechaDeCierre());
         ticket.setEstado(ticketVista.getEstado());
+        ticket.setCliente(ticketVista.getCliente());
         return ticket;
     }
 
@@ -38,10 +41,12 @@ public class TicketMapeador {
         ticketVista.setTipo(ticket.getTipo());
         ticketVista.setNombre(ticket.getNombre());
         ticketVista.setSeveridad(ticket.getSeveridad());
-        ticketVista.setResponsable(ticket.getResponsable());
+        ticketVista.setResponsableDni(ticket.getResponsableDni());
         ticketVista.setEstado(ticket.getEstado());
         ticketVista.setFechaDeCreacion(ticket.getFechaDeCreacion());
         ticketVista.setFechaDeActualizacion(ticket.getFechaDeActualizacion());
+        ticketVista.setFechaDeCierre(ticket.getFechaDeCierre());
+        ticketVista.setCliente(ticket.getCliente());
         return ticketVista;
     }
 }

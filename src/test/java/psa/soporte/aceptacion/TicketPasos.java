@@ -45,7 +45,12 @@ public class TicketPasos {
         TicketVistaCrear ticketVista = new TicketVistaCrear();
         ticketVista.setNombre(campos.get("nombre"));
         ticketVista.setDescripcion(campos.get("descripcion"));
-        ticketVista.setResponsable(campos.get("responsable"));
+        try{
+            ticketVista.setResponsableDni(Long.parseLong(campos.get("responsableDni")));
+        }
+        catch (NumberFormatException e){
+            ticketVista.setResponsableDni(null);
+        }
         ticketVista.setTipo(campos.get("tipo"));
         ticketVista.setSeveridad(campos.get("severidad"));
         return ticketVista;
@@ -56,7 +61,12 @@ public class TicketPasos {
         TicketVistaMostrar ticketVista = new TicketVistaMostrar();
         ticketVista.setNombre(campos.get("nombre"));
         ticketVista.setDescripcion(campos.get("descripcion"));
-        ticketVista.setResponsable(campos.get("responsable"));
+        try{
+            ticketVista.setResponsableDni(Long.parseLong(campos.get("responsableDni")));
+        }
+        catch (NumberFormatException e){
+            ticketVista.setResponsableDni(null);
+        }
         ticketVista.setTipo(campos.get("tipo"));
         ticketVista.setSeveridad(campos.get("severidad"));
         ticketVista.setEstado(campos.get("estado"));
@@ -88,7 +98,12 @@ public class TicketPasos {
         TicketVistaActualizar ticketVista = new TicketVistaActualizar();
         ticketVista.setNombre(campos.get("nombre"));
         ticketVista.setDescripcion(campos.get("descripcion"));
-        ticketVista.setResponsable(campos.get("responsable"));
+        try{
+            ticketVista.setResponsableDni(Long.parseLong(campos.get("responsableDni")));
+        }
+        catch (NumberFormatException e){
+            ticketVista.setResponsableDni(null);
+        }
         ticketVista.setTipo(campos.get("tipo"));
         ticketVista.setSeveridad(campos.get("severidad"));
         ticketVista.setEstado(campos.get("estado"));
@@ -100,7 +115,12 @@ public class TicketPasos {
         Ticket ticket = new Ticket();
         ticket.setNombre(campos.get("nombre"));
         ticket.setDescripcion(campos.get("descripcion"));
-        ticket.setResponsable(campos.get("responsable"));
+        try{
+            ticket.setResponsableDni(Long.parseLong(campos.get("responsableDni")));
+        }
+        catch (NumberFormatException e){
+            ticket.setResponsableDni(null);
+        }
         ticket.setTipo(campos.get("tipo"));
         ticket.setSeveridad(campos.get("severidad"));
         ticket.setEstado(campos.get("estado"));
@@ -149,7 +169,7 @@ public class TicketPasos {
         assertEquals(ticket.getNombre(), ticketVista.getNombre());
         assertEquals(ticket.getDescripcion(), ticketVista.getDescripcion());
         assertEquals(ticket.getEstado(), ticketVista.getEstado());
-        assertEquals(ticket.getResponsable(), ticketVista.getResponsable());
+        assertEquals(ticket.getResponsableDni(), ticketVista.getResponsableDni());
         assertEquals(ticket.getSeveridad(), ticketVista.getSeveridad());
         assertEquals(ticket.getTipo(), ticketVista.getTipo());
 
