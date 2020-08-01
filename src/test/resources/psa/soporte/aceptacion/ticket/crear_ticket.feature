@@ -13,6 +13,9 @@ Característica: Crear ticket
     Cuando creo un ticket "<caso>" ingresando:
       | nombre   | descripcion   | responsableDni   | tipo   | severidad   |
       | <nombre> | <descripcion> | <responsableDni> | <tipo> | <severidad> |
+    Y con el siguiente cliente:
+      | nombre    | razonSocial     | cuit        | fechaCliente | estado |
+      | Juan Diaz | Aninfo Software | 20384532547 | 2020/03/20   | activo |
     Entonces veo que la operación fue "<resultado>"
 
     Ejemplos:
@@ -33,7 +36,13 @@ Característica: Crear ticket
     Cuando creo un ticket "correctamente" ingresando:
       | nombre        | descripcion                  | responsableDni | tipo     | severidad |
       | Enviar pedido | ¿Cuál es el costo del envío? | 41226943       | consulta | baja      |
+    Y con el siguiente cliente:
+      | nombre    | razonSocial     | cuit        | fechaCliente | estado |
+      | Juan Diaz | Aninfo Software | 20384532547 | 2020/03/20   | activo |
     Entonces veo que posee los siguientes atributos:
       | nombre        | descripcion                  | responsableDni | tipo     | severidad | estado    | fechaDeCreacion | fechaDeActualizacion |
       | Enviar pedido | ¿Cuál es el costo del envío? | 41226943       | consulta | baja      | pendiente | ahora           |                      |
+    Y veo que posee el siguiente cliente:
+      | nombre    | razonSocial     | cuit        | fechaCliente | estado |
+      | Juan Diaz | Aninfo Software | 20384532547 | 2020/03/20   | activo |
     Y veo que no posee comentarios

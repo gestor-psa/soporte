@@ -12,6 +12,9 @@ Característica: Seleccionar ticket
       | comentario                                                              | usuario        | fecha               |
       | El usuario preguntó por el costo de envío                               | Matias Marquez | 2020/06/20 13:54:17 |
       | Se respondío al usuario que eso se calcula al ingresar el código postal | Matias Marquez | 2020/06/20 13:56:58 |
+    Y con el siguiente cliente:
+      | nombre    | razonSocial     | cuit        | fechaCliente | estado |
+      | Juan Diaz | Aninfo Software | 20384532547 | 2020/03/20   | activo |
     Y que existe un producto con nombre "PSA ERP" y versión 2
 
   Escenario: Seleccionar ticket
@@ -25,3 +28,6 @@ Característica: Seleccionar ticket
       | comentario                                                              | usuario        | fecha               |
       | El usuario preguntó por el costo de envío                               | Matias Marquez | 2020/06/20 13:54:17 |
       | Se respondío al usuario que eso se calcula al ingresar el código postal | Matias Marquez | 2020/06/20 13:56:58 |
+    Y veo que posee el siguiente cliente:
+      | nombre    | razonSocial     | cuit        | fechaCliente | estado |
+      | Juan Diaz | Aninfo Software | 20384532547 | 2020/03/20   | activo |

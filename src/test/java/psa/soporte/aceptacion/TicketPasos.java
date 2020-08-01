@@ -11,11 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import psa.soporte.PsaApplication;
 import psa.soporte.controlador.TicketControlador;
+import psa.soporte.modelo.Cliente;
 import psa.soporte.modelo.Ticket;
 import psa.soporte.servicio.TicketServicio;
+import psa.soporte.vista.cliente.ClienteVistaMostrar;
 import psa.soporte.vista.ticket.TicketVistaActualizar;
 import psa.soporte.vista.ticket.TicketVistaCrear;
 import psa.soporte.vista.ticket.TicketVistaMostrar;
+
 import javax.transaction.Transactional;
 import javax.validation.Validator;
 import java.text.DateFormat;
@@ -24,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @ContextConfiguration(classes = PsaApplication.class)
@@ -39,6 +43,7 @@ public class TicketPasos {
     private TicketServicio ticketServicio;
 
     private TicketVistaMostrar ticket;
+    private ClienteVistaMostrar cliente;
 
     @DataTableType
     public TicketVistaCrear definirTicketVistaCrear(Map<String, String> campos) {
@@ -217,4 +222,34 @@ public class TicketPasos {
         ticket = ticketControlador.actualizar(ticket.getId(), ticketVista);
     }
 
+    @Y("con el siguiente cliente:")
+    public void conElSiguienteCliente(Cliente clienteVista) {
+
+        if(ticket!=null) {
+            Cliente cliente = new Cliente();
+            cliente.setNombre(clienteVista.getNombre());
+            cliente.setRazonSocial(clienteVista.getRazonSocial());
+            cliente.setCuit(clienteVista.getCuit());
+            cliente.setFechaDesdeQueEsCliente(clienteVista.getFechaDesdeQueEsCliente());
+            cliente.setEstado(clienteVista.getEstado());
+            ticket.setCliente(clienteVista);
+        }
+
+    }
+
+    @Y("veo que posee el siguiente cliente:")
+    public void veoQuePoseeElSiguienteCliente(Cliente clienteVista) {
+
+        if(ticket!=null) {
+            Cliente cliente = ticket.getCliente();
+            if(cliente!=null){
+                assertEquals(cliente.getNombre(), clienteVista.getNombre());
+                assertEquals(cliente.getRazonSocial(), clienteVista.getRazonSocial());
+                assertEquals(cliente.getCuit(), clienteVista.getCuit());
+                assertEquals(cliente.getFechaDesdeQueEsCliente(), clienteVista.getFechaDesdeQueEsCliente());
+                assertEquals(cliente.getEstado(), clienteVista.getEstado());
+            }
+        }
+
+    }
 }
