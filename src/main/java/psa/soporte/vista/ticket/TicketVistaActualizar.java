@@ -6,7 +6,6 @@ import psa.soporte.modelo.Cliente;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
-import java.util.Date;
 
 @Getter
 @Setter
@@ -32,8 +31,6 @@ public class TicketVistaActualizar {
     @Pattern(regexp = "^(pendiente|iniciado|cerrado)$",
             message = "El estado solo puede ser pendiente, iniciado o cerrado")
     private String estado;
-
-    private Date fechaDeCierre;
 
     private Long responsableDni;
 

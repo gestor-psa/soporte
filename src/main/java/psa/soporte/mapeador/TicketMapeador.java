@@ -27,7 +27,6 @@ public class TicketMapeador {
         ticket.setTipo(ticketVista.getTipo());
         ticket.setSeveridad(ticketVista.getSeveridad());
         ticket.setResponsableDni(ticketVista.getResponsableDni());
-        ticket.setFechaDeCierre(ticketVista.getFechaDeCierre());
         ticket.setEstado(ticketVista.getEstado());
         ticket.setCliente(ticketVista.getCliente());
         return ticket;
