@@ -42,7 +42,9 @@ public class TicketPasos {
     @Autowired
     private TicketServicio ticketServicio;
 
+    private Ticket ticketTicket;
     private TicketVistaMostrar ticket;
+    private TicketVistaCrear ticketCrear;
     private ClienteVistaMostrar cliente;
 
     @DataTableType
@@ -155,7 +157,8 @@ public class TicketPasos {
             this.ticket = null;
             return;
         }
-        this.ticket = ticketControlador.crear(ticket);
+        this.ticketCrear = ticket;
+        //this.ticket = ticketControlador.crear(ticket);
     }
 
     @Entonces("veo que la operación fue {string}")
@@ -194,7 +197,8 @@ public class TicketPasos {
 
     @Dado("que existe un ticket con los siguientes atributos:")
     public void queExisteUnTicketConLosSiguientesAtributos(Ticket ticket) {
-        ticketServicio.crear(ticket);
+        this.ticketTicket = ticket;
+        //ticketServicio.crear(ticket);
     }
 
     @Y("con los siguientes comentarios:")
@@ -225,7 +229,7 @@ public class TicketPasos {
     @Y("con el siguiente cliente:")
     public void conElSiguienteCliente(Cliente clienteVista) {
 
-        if(ticket!=null) {
+        /*if(ticket!=null) {
             Cliente cliente = new Cliente();
             cliente.setNombre(clienteVista.getNombre());
             cliente.setRazonSocial(clienteVista.getRazonSocial());
@@ -233,6 +237,14 @@ public class TicketPasos {
             cliente.setFechaDesdeQueEsCliente(clienteVista.getFechaDesdeQueEsCliente());
             cliente.setEstado(clienteVista.getEstado());
             ticket.setCliente(clienteVista);
+        }*/
+        if(ticketCrear!=null) {
+            ticketCrear.setCliente(clienteVista);
+            this.ticket = ticketControlador.crear(ticketCrear);
+        }
+        if(ticketTicket!=null){
+            ticketTicket.setCliente(clienteVista);
+            ticketServicio.crear(ticketTicket);
         }
 
     }
