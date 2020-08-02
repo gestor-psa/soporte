@@ -8,7 +8,9 @@ import io.cucumber.java.es.Entonces;
 import io.cucumber.java.es.Y;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 import psa.soporte.PsaApplication;
 import psa.soporte.controlador.TicketControlador;
 import psa.soporte.modelo.Cliente;
@@ -46,7 +48,7 @@ public class TicketPasos {
 
     private Cliente clienteCreado;
     private TicketVistaMostrar ticket;
-    private Ticket ticketCreado;
+
 
     @DataTableType
     public TicketVistaCrear definirTicketVistaCrear(Map<String, String> campos) {
@@ -60,6 +62,7 @@ public class TicketPasos {
         }
         ticketVista.setTipo(campos.get("tipo"));
         ticketVista.setSeveridad(campos.get("severidad"));
+        ticketVista.setClienteId(clienteCreado.getId());
         return ticketVista;
     }
 
@@ -112,6 +115,7 @@ public class TicketPasos {
         ticketVista.setTipo(campos.get("tipo"));
         ticketVista.setSeveridad(campos.get("severidad"));
         ticketVista.setEstado(campos.get("estado"));
+        ticketVista.setClienteId(clienteCreado.getId());
         return ticketVista;
     }
 
@@ -136,26 +140,7 @@ public class TicketPasos {
         return ticket;
     }
 
-    @Dado("que soy ingeniero de soporte")
-    public void queSoyIngenieroDeSoporte() {
-    }
 
-    @Dado("que existe un producto con nombre {string} y versión {int}")
-    public void queExisteUnProductoConNombreYVersion(String arg0, int arg1) {
-    }
-
-    @Y("selecciono la versión {int} del producto {string}")
-    public void seleccionoLaVersionDelProducto(int arg0, String arg1) {
-    }
-
-    @Cuando("creo un ticket {string} ingresando:")
-    public void creoUnTicketIngresando(String caso, TicketVistaCrear ticket) {
-        if (!validator.validate(ticket).isEmpty()) {
-            this.ticket = null;
-            return;
-        }
-
-    }
 
     @Entonces("veo que la operación fue {string}")
     public void veoQueLaOperacionFue(String resultado) {
@@ -166,6 +151,57 @@ public class TicketPasos {
         } else {
             throw new RuntimeException("Resultado inválido " + resultado);
         }
+    }
+
+    @Dado("que existe un ticket con los siguientes atributos:")
+    public void queExisteUnTicketConLosSiguientesAtributos(Ticket ticketVista) {
+        ticketVista.setCliente(clienteCreado);
+        ticketServicio.crear(ticketVista);
+    }
+
+
+    @Cuando("selecciono un ticket con nombre {string}")
+    public void seleccionoUnTicketConNombre(String nombre) {
+        for (TicketVistaMostrar ticketVista : ticketControlador.listarTickets()) {
+            if (ticketVista.getNombre().equals(nombre))
+                this.ticket = ticketVista;
+        }
+    }
+
+    @Cuando("modifico el ticket {string}:")
+    public void modificoElTicket(String caso, TicketVistaActualizar ticketVista) {
+        if (!validator.validate(ticketVista).isEmpty()) {
+            ticket = null;
+            return;
+        }
+        ticketVista.setClienteId(this.ticket.getCliente().getId());
+        ticket = ticketControlador.actualizar(this.ticket.getId(), ticketVista);
+    }
+
+    @Y("veo que posee el siguiente cliente:")
+    public void veoQuePoseeElSiguienteCliente(Cliente clienteVista) {
+
+        Cliente cliente = ticket.getCliente();
+        assertEquals(cliente.getNombre(), clienteVista.getNombre());
+        assertEquals(cliente.getRazonSocial(), clienteVista.getRazonSocial());
+        assertEquals(cliente.getCuit(), clienteVista.getCuit());
+        assertEquals(cliente.getFechaDesdeQueEsCliente(), clienteVista.getFechaDesdeQueEsCliente());
+        assertEquals(cliente.getEstado(), clienteVista.getEstado());
+
+    }
+
+    @Dado("que existe un cliente con los siguientes atributoss:")
+    public void queExisteUnClienteConLosSiguientesAtributoss(Cliente clienteVista) {
+        this.clienteCreado = clienteServicio.crear(clienteVista);
+    }
+
+    @Cuando("creo un ticket {string} ingresando:")
+    public void creoUnTicketIngresando(String caso, TicketVistaCrear ticket) {
+        if (!validator.validate(ticket).isEmpty()) {
+            this.ticket = null;
+            return;
+        }
+        this.ticket = ticketControlador.crear(ticket);
     }
 
     @Y("veo que posee los siguientes atributos:")
@@ -187,49 +223,12 @@ public class TicketPasos {
     }
 
 
-    @Dado("que existe un ticket con los siguientes atributos:")
-    public void queExisteUnTicketConLosSiguientesAtributos(Ticket ticket) {
-        ticket.setCliente(clienteCreado);
-        ticketCreado = ticketServicio.crear(ticket);
-        this.ticket = ticketControlador.obtener(ticketCreado.getId());
-    }
-
-
-    @Cuando("selecciono un ticket con nombre {string}")
-    public void seleccionoUnTicketConNombre(String nombre) {
-        for (TicketVistaMostrar ticketVista : ticketControlador.listarTickets()) {
-            if (ticketVista.getNombre().equals(nombre))
-                return;
-        }
-    }
-
-    @Cuando("modifico el ticket {string}:")
-    public void modificoElTicket(String caso, TicketVistaActualizar ticketVista) {
-        if (!validator.validate(ticketVista).isEmpty()) {
-            ticket = null;
-            return;
-        }
-        ticket = ticketControlador.actualizar(ticket.getId(), ticketVista);
-    }
-
-    @Y("veo que posee el siguiente cliente:")
-    public void veoQuePoseeElSiguienteCliente(Cliente clienteVista) {
-
-        Cliente cliente = ticket.getCliente();
-        assertEquals(cliente.getNombre(), clienteVista.getNombre());
-        assertEquals(cliente.getRazonSocial(), clienteVista.getRazonSocial());
-        assertEquals(cliente.getCuit(), clienteVista.getCuit());
-        assertEquals(cliente.getFechaDesdeQueEsCliente(), clienteVista.getFechaDesdeQueEsCliente());
-        assertEquals(cliente.getEstado(), clienteVista.getEstado());
+    @Dado("que existe un producto con nombre {string} y versión {int}")
+    public void queExisteUnProductoConNombreYVersión(String arg0, int arg1) {
 
     }
 
-    @Dado("que existe un cliente con los siguientes atributoss:")
-    public void queExisteUnClienteConLosSiguientesAtributoss(Cliente clienteVista) {
-        this.clienteCreado = clienteServicio.crear(clienteVista);
-    }
-
-    @Y("con el siguiente cliente:")
-    public void conElSiguienteCliente(Cliente cliente) {
+    @Dado("que soy ingeniero de soporte")
+    public void queSoyIngenieroDeSoporte() {
     }
 }

@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 @Getter
@@ -26,5 +27,6 @@ public class TicketVistaCrear {
             message = "La severidad solo puede ser alta, media o baja")
     private String severidad;
     private Long responsableDni;
+    @NotNull
     private Long clienteId;
 }

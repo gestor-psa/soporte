@@ -8,13 +8,12 @@ Característica: Crear ticket
     Dado que existe un producto con nombre "PSA ERP" y versión 2
 
   Esquema del escenario: Crear de ticket
-    Dado que soy ingeniero de soporte
+    Dado que existe un cliente con los siguientes atributoss:
+      | nombre    | razonSocial     | cuit        | fechaCliente | estado |
+      | Juan Diaz | Aninfo Software | 20384532547 | 2020/03/20   | activo |
     Cuando creo un ticket "<caso>" ingresando:
       | nombre   | descripcion   | responsableDni   | tipo   | severidad   |
       | <nombre> | <descripcion> | <responsableDni> | <tipo> | <severidad> |
-    Y con el siguiente cliente:
-      | nombre    | razonSocial     | cuit        | fechaCliente | estado |
-      | Juan Diaz | Aninfo Software | 20384532547 | 2020/03/20   | activo |
     Entonces veo que la operación fue "<resultado>"
 
     Ejemplos:
@@ -30,14 +29,12 @@ Característica: Crear ticket
       | sin responsableDni       | exitosa   | Autenticación fallida | No muestra el botón de login    |                | incidencia | alta      |
 
   Escenario: Creación exitosa
-    Dado que soy ingeniero de soporte
-    Y selecciono la versión 2 del producto "PSA ERP"
+    Dado que existe un cliente con los siguientes atributoss:
+      | nombre    | razonSocial     | cuit        | fechaCliente | estado |
+      | Juan Diaz | Aninfo Software | 20384532547 | 2020/03/20   | activo |
     Cuando creo un ticket "correctamente" ingresando:
       | nombre        | descripcion                  | responsableDni | tipo     | severidad |
       | Enviar pedido | ¿Cuál es el costo del envío? | 41226943       | consulta | baja      |
-    Y con el siguiente cliente:
-      | nombre    | razonSocial     | cuit        | fechaCliente | estado |
-      | Juan Diaz | Aninfo Software | 20384532547 | 2020/03/20   | activo |
     Entonces veo que posee los siguientes atributos:
       | nombre        | descripcion                  | responsableDni | tipo     | severidad | estado    | fechaDeCreacion | fechaDeActualizacion |
       | Enviar pedido | ¿Cuál es el costo del envío? | 41226943       | consulta | baja      | pendiente | ahora           |                      |
