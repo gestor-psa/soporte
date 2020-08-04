@@ -2,6 +2,7 @@ package psa.soporte.vista.ticket;
 
 import lombok.Getter;
 import lombok.Setter;
+import psa.soporte.modelo.Cliente;
 import psa.soporte.modelo.Ticket;
 
 import java.util.Date;
@@ -15,10 +16,12 @@ public class TicketVistaMostrar implements Comparable<TicketVistaMostrar> {
     private String descripcion;
     private String tipo;
     private String severidad;
-    private String responsable;
     private String estado;
     private Date fechaDeCreacion;
     private Date fechaDeActualizacion;
+    private Date fechaDeCierre;
+    private Long responsableDni;
+    private Cliente cliente;
 
     @Override
     public int compareTo(TicketVistaMostrar otroTicket) {

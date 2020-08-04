@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 @Getter
@@ -26,10 +27,11 @@ public class TicketVistaActualizar {
             message = "La severidad solo puede ser alta, media o baja")
     private String severidad;
 
-    private String responsable;
-
     @NotBlank(message = "El estado es requerido")
     @Pattern(regexp = "^(pendiente|iniciado|cerrado)$",
             message = "El estado solo puede ser pendiente, iniciado o cerrado")
     private String estado;
+    private Long responsableDni;
+    @NotNull
+    private Long clienteId;
 }

@@ -34,9 +34,16 @@ public class TicketServicio {
                     ticket.setNombre(nuevoTicket.getNombre());
                     ticket.setTipo(nuevoTicket.getTipo());
                     ticket.setEstado(nuevoTicket.getEstado());
+                    if (ticket.getEstado().equals("pendiente") || ticket.getEstado().equals("iniciado")){
+                        ticket.setFechaDeCierre(null);
+                    }
+                    else {
+                        ticket.setFechaDeCierre(new Date());
+                    }
                     ticket.setDescripcion(nuevoTicket.getDescripcion());
                     ticket.setSeveridad(nuevoTicket.getSeveridad());
-                    ticket.setResponsable(nuevoTicket.getResponsable());
+                    ticket.setResponsableDni(nuevoTicket.getResponsableDni());
+                    ticket.setCliente(nuevoTicket.getCliente());
                     ticket.setFechaDeActualizacion(new Date());
                     return repositorio.save(ticket);
                 })
