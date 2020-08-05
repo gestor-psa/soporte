@@ -34,11 +34,16 @@ public class ReporteServicio {
         MutableInt ticketsAbiertosInicial = new MutableInt(0);
 
         List<Ticket> listaTicket = ticketServicio.listarTickets();
+        if (listaTicket.isEmpty()){
+            TreeMap<LocalDate,Integer> tree = new TreeMap<LocalDate,Integer>();
+            daysRange.forEach(day -> tree.put(day,0));
+            return tree;
+        }
         listaTicket.forEach(ticket -> {
-            if((diaInicial.isAfter(ticket.getFechaDeCreacion().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())
+            if ((diaInicial.isAfter(ticket.getFechaDeCreacion().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())
                     && diaInicial.isBefore(ticket.getFechaDeCierre().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()))
                     || (diaInicial.isAfter(ticket.getFechaDeCreacion().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())
-                    && (ticket.getFechaDeCierre() == null))){
+                    && (ticket.getFechaDeCierre() == null))) {
                 ticketsAbiertosInicial.add(1);
             }
         });// tengo cantidad pendientes para el dia 0.
@@ -57,9 +62,6 @@ public class ReporteServicio {
                 return;
             }
         });
-
-
-
         return tree;
     }
 
@@ -77,6 +79,9 @@ public class ReporteServicio {
 
 
         List<Ticket> listaTicket = ticketServicio.listarTickets();
+        if (listaTicket.isEmpty()){
+            return diccionarioFechas;
+        }
         listaTicket.forEach(ticket -> {
             LocalDate fechaCreacion = ticket.getFechaDeCreacion().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             if (diccionarioFechas.containsKey(fechaCreacion)){
@@ -101,9 +106,8 @@ public class ReporteServicio {
     }
 
     private List<LocalDate> generarListaUltimosNDias(Integer n){
-        List<LocalDate> daysRange = Stream.iterate(LocalDate.now().minusDays(30),
+        List<LocalDate> daysRange = Stream.iterate(LocalDate.now().minusDays(n-1),
                 date -> date.plusDays(1)).limit(n).collect(Collectors.toList());
-
         return daysRange;
     }
 
