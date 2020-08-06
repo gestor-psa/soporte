@@ -1,6 +1,5 @@
 package psa.soporte.aceptacion;
 
-import io.cucumber.datatable.DataTable;
 import io.cucumber.java.DataTableType;
 import io.cucumber.java.es.Cuando;
 import io.cucumber.java.es.Dado;
@@ -8,9 +7,7 @@ import io.cucumber.java.es.Entonces;
 import io.cucumber.java.es.Y;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 import psa.soporte.PsaApplication;
 import psa.soporte.controlador.TicketControlador;
 import psa.soporte.modelo.Cliente;

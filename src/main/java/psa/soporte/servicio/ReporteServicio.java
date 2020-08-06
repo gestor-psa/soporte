@@ -17,7 +17,7 @@ public class ReporteServicio {
     @Autowired
     private TicketServicio ticketServicio;
 
-    public TreeMap<LocalDate,ArrayList<Integer>> estadosdiarios() {
+    public TreeMap<LocalDate,ArrayList<Integer>> ticketsAbiertosYCerradosPorDia() {
 
         HashMap<LocalDate,ArrayList<Integer>> diccionarioFechas = generarDiccionarioFechas();
         TreeMap<LocalDate,ArrayList<Integer>> diccionarioFechasOrdenado = new TreeMap<LocalDate,ArrayList<Integer>>();
@@ -26,7 +26,7 @@ public class ReporteServicio {
         return diccionarioFechasOrdenado;
     }
 
-    public TreeMap<LocalDate,Integer> acumulado() {
+    public TreeMap<LocalDate,Integer> ticketsPendientes() {
 
         List<LocalDate> daysRange = generarListaUltimosNDias(30);
 
@@ -40,12 +40,20 @@ public class ReporteServicio {
             return tree;
         }
         listaTicket.forEach(ticket -> {
-            if ((diaInicial.isAfter(ticket.getFechaDeCreacion().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())
-                    && diaInicial.isBefore(ticket.getFechaDeCierre().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()))
-                    || (diaInicial.isAfter(ticket.getFechaDeCreacion().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())
-                    && (ticket.getFechaDeCierre() == null))) {
+            if((diaInicial.isAfter(ticket.getFechaDeCreacion().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()) && (ticket.getFechaDeCierre() == null))){
                 ticketsAbiertosInicial.add(1);
             }
+            try{
+                if ((diaInicial.isAfter(ticket.getFechaDeCreacion().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())
+                        && diaInicial.isBefore(ticket.getFechaDeCierre().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()))) {
+                    ticketsAbiertosInicial.add(1);
+                }
+            }
+            catch(NullPointerException e){
+                ;
+            }
+
+
         });// tengo cantidad pendientes para el dia 0.
         // pendientes dia i+1 = (pendientes dia i) + (abierto dia i+1) - (cerrados dia i+1).
 
