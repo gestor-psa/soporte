@@ -16,13 +16,13 @@ public class ReporteControlador {
     private ReporteServicio reporteServicio;
 
     @GetMapping("/reportes/ticketsPendientes")
-    public TreeMap<LocalDate,Integer> acumulado() {
-        return reporteServicio.acumulado();
+    public TreeMap<LocalDate,Integer> ticketsPendientes() {
+        return reporteServicio.ticketsPendientes();
     }
 
     @GetMapping("/reportes/ticketsAbiertosYCerradosPorDia")
-    public TreeMap<LocalDate,ArrayList<Integer>> estadosdiarios() {
-        return reporteServicio.estadosdiarios();
+    public TreeMap<LocalDate,ArrayList<Integer>> ticketsAbiertosYCerradosPorDia() {
+        return reporteServicio.ticketsAbiertosYCerradosPorDia();
     }
 
 }
